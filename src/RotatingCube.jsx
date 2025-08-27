@@ -36,9 +36,36 @@ function RotatingCube() {
 
   camera.position.z = 5;
 
+    // Camera movement state
+    const cameraSpeed = 0.1;
+    const keys = { w: false, a: false, s: false, d: false };
+
+    // Keydown handler
+    const handleKeyDown = (e) => {
+      if (e.key === 'w') keys.w = true;
+      if (e.key === 'a') keys.a = true;
+      if (e.key === 's') keys.s = true;
+      if (e.key === 'd') keys.d = true;
+    };
+    // Keyup handler
+    const handleKeyUp = (e) => {
+      if (e.key === 'w') keys.w = false;
+      if (e.key === 'a') keys.a = false;
+      if (e.key === 's') keys.s = false;
+      if (e.key === 'd') keys.d = false;
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
     // Animation loop
     let frameId;
     const animate = function () {
+      // Camera movement
+      if (keys.w) camera.position.z -= cameraSpeed;
+      if (keys.s) camera.position.z += cameraSpeed;
+      if (keys.a) camera.position.x -= cameraSpeed;
+      if (keys.d) camera.position.x += cameraSpeed;
+
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
       renderer.render(scene, camera);
@@ -48,6 +75,8 @@ function RotatingCube() {
 
     // Cleanup
     return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
       cancelAnimationFrame(frameId);
       renderer.dispose();
       if (mountRef.current && renderer.domElement) {

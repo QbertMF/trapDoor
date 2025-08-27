@@ -1,0 +1,11 @@
+Model Information:
+* title:	eve stellar blade 5
+* source:	https://sketchfab.com/3d-models/eve-stellar-blade-5-bfc60648f6554d2ca50e84cb0bda3762
+* author:	ilyakardailskiy (https://sketchfab.com/ilyakardailskiy)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "eve stellar blade 5" (https://sketchfab.com/3d-models/eve-stellar-blade-5-bfc60648f6554d2ca50e84cb0bda3762) by ilyakardailskiy (https://sketchfab.com/ilyakardailskiy) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
