@@ -2,11 +2,18 @@
 import * as THREE from 'three';
 import { useEffect, useRef, useState } from 'react';
 import { addTreeToScene } from './component/Tree';
+import { TreeStructure } from './component/TreeStructure';
 import TreeWidget from './component/TreeWidget';
 
 function RotatingCube() {
   const mountRef = useRef(null);
-  const [iterations, setIterations] = useState(4);
+  const [iterations, setIterations] = useState(8);
+  const [regenKey, setRegenKey] = useState(0);
+  const [minAngle, setMinAngle] = useState(15);
+  const [maxAngle, setMaxAngle] = useState(45);
+  const [minBranch, setMinBranch] = useState(1);
+  const [maxBranch, setMaxBranch] = useState(3);
+  const [branchLengthFactor, setBranchLengthFactor] = useState(0.8);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -36,8 +43,18 @@ function RotatingCube() {
     sphere.position.set(2, 0, 0); // Move sphere to the right of the cube
     scene.add(sphere);
 
-    // Add tree model to the scene with current iterations
-    addTreeToScene(scene, undefined, iterations);
+    // Create tree parameters structure
+    const treeParams = new TreeStructure({
+      iterations,
+      minAngle,
+      maxAngle,
+      minBranch,
+      maxBranch,
+      branchLengthFactor,
+      // Add more parameters here as needed
+    });
+    // Add tree model to the scene
+    addTreeToScene(scene, treeParams);
 
     camera.position.z = 5;
 
@@ -135,13 +152,30 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations]);
+  }, [iterations, regenKey]);
 
   return (
-    <>
-      <TreeWidget iterations={iterations} setIterations={setIterations} />
+    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
       <div ref={mountRef} style={{ width: '1000px', height: '800px', margin: '0 auto' }} />
-    </>
+      <div>
+        <TreeWidget
+          iterations={iterations}
+          setIterations={setIterations}
+          minAngle={minAngle}
+          setMinAngle={setMinAngle}
+          maxAngle={maxAngle}
+          setMaxAngle={setMaxAngle}
+          minBranch={minBranch}
+          setMinBranch={setMinBranch}
+          maxBranch={maxBranch}
+          setMaxBranch={setMaxBranch}
+          branchLengthFactor={branchLengthFactor}
+          setBranchLengthFactor={setBranchLengthFactor}
+          onRegenerate={() => setRegenKey(k => k + 1)}
+        />
+        {/* More parameter widgets can be added here */}
+      </div>
+    </div>
   );
 }
 

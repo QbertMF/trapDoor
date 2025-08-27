@@ -1,37 +1,51 @@
 import * as THREE from 'three';
 import { BranchStructure } from './BranchStructure';
+import { TreeStructure } from './TreeStructure';
 
 // Recursive function to generate branches
-function generateBranches(start, direction, length, thickness, iterations, branches) {
+function generateBranches(start, direction, length, thickness, iterations, branches, treeParams) {
   if (iterations === 0) return;
 
   // Calculate end point
   const end = start.clone().add(direction.clone().multiplyScalar(length));
-  branches.push(new BranchStructure(start.clone(), end.clone(), thickness, thickness * 0.7));
+  branches.push(new BranchStructure(start.clone(), end.clone(), thickness, thickness * treeParams.branchThicknessFactor));
 
   // Number of branches at this node
-  const branchCount = 2 + Math.floor(Math.random() * 2); // 2 or 3 branches
+  const branchCount = treeParams.minBranch + Math.floor(Math.random() * (treeParams.maxBranch - treeParams.minBranch + 1));
   for (let i = 0; i < branchCount; i++) {
-    // Random direction for branch
-    const angle = (Math.PI / 4) * (Math.random() - 0.5) + (i - (branchCount-1)/2) * (Math.PI/6);
-    const branchDir = direction.clone().applyAxisAngle(new THREE.Vector3(0,0,1), angle).applyAxisAngle(new THREE.Vector3(1,0,0), Math.random() * 0.3);
+    // Random angle between minAngle and maxAngle (degrees to radians)
+    const angleDeg = treeParams.minAngle + Math.random() * (treeParams.maxAngle - treeParams.minAngle);
+    const angleRad = angleDeg * Math.PI / 180;
+    // Random direction in 3D space
+    let randomDir = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+    // Ensure randomDir is not parallel to direction
+    if (randomDir.angleTo(direction) < 0.1) {
+      randomDir = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+    }
+    // Axis perpendicular to direction and randomDir
+    const axis = direction.clone().cross(randomDir).normalize();
+    // Apply the angle to the direction to get the new branch direction
+    const branchDir = direction.clone().applyAxisAngle(axis, angleRad).normalize();
+  // Each branch length is shorter by branchLengthFactor relative to its parent, plus random variance
+  const nextLength = length * treeParams.branchLengthFactor+ (Math.random() - 0.5) * treeParams.branchLengthVariance;
     generateBranches(
       end,
       branchDir,
-      length * (0.7 + Math.random()*0.2),
-      thickness * 0.7,
+      nextLength,
+      thickness * treeParams.branchThicknessFactor,
       iterations - 1,
-      branches
+      branches,
+      treeParams
     );
   }
 }
 
 // Add tree to scene
-export function addTreeToScene(scene, position = { x: -2, y: -4, z: 0 }, iterations = 4) {
+export function addTreeToScene(scene, treeParams) {
   const branches = [];
-  const trunkStart = new THREE.Vector3(position.x, position.y, position.z);
+  const trunkStart = new THREE.Vector3(treeParams.position.x, treeParams.position.y, treeParams.position.z);
   const trunkDir = new THREE.Vector3(0, 1, 0);
-  generateBranches(trunkStart, trunkDir, 2, 0.2, iterations, branches);
+  generateBranches(trunkStart, trunkDir, treeParams.trunkLength, treeParams.trunkThickness, treeParams.iterations, branches, treeParams);
 
   // Render branches as cylinders
   branches.forEach(branch => {
