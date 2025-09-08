@@ -2,13 +2,14 @@
 import * as THREE from 'three';
 import { useEffect, useRef, useState } from 'react';
 import { addTreeToScene } from './component/Tree';
+import { createSeededRandom } from './component/SeededRandom';
 import { TreeStructure } from './component/TreeStructure';
 import TreeWidget from './component/TreeWidget';
 
 function RotatingCube() {
   const mountRef = useRef(null);
   const [iterations, setIterations] = useState(8);
-  const [regenKey, setRegenKey] = useState(0);
+  const [seed, setSeed] = useState(() => Math.floor(Math.random() * 1000000));
   const [minAngle, setMinAngle] = useState(15);
   const [maxAngle, setMaxAngle] = useState(45);
   const [minBranch, setMinBranch] = useState(1);
@@ -53,8 +54,12 @@ function RotatingCube() {
       branchLengthFactor,
       // Add more parameters here as needed
     });
-    // Add tree model to the scene
-    addTreeToScene(scene, treeParams);
+    // Create seeded random generator
+    const rand = createSeededRandom(seed);
+    // Add tree model to the scene as a group
+    const treeGroup = new THREE.Group();
+    addTreeToScene(treeGroup, treeParams, rand);
+    scene.add(treeGroup);
 
     camera.position.z = 5;
 
@@ -135,10 +140,11 @@ function RotatingCube() {
       camera.position.z = orbitCenter.z + orbitRadius * Math.cos(orbitElevation) * Math.cos(orbitAzimuth);
       camera.lookAt(orbitCenter);
 
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-      renderer.render(scene, camera);
-      frameId = requestAnimationFrame(animate);
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+  treeGroup.rotation.y += 0.003; // slow rotation
+  renderer.render(scene, camera);
+  frameId = requestAnimationFrame(animate);
     };
     animate();
 
@@ -152,7 +158,7 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations, regenKey]);
+  }, [iterations, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
@@ -171,7 +177,7 @@ function RotatingCube() {
           setMaxBranch={setMaxBranch}
           branchLengthFactor={branchLengthFactor}
           setBranchLengthFactor={setBranchLengthFactor}
-          onRegenerate={() => setRegenKey(k => k + 1)}
+          onRegenerate={() => setSeed(Math.floor(Math.random() * 1000000))}
         />
         {/* More parameter widgets can be added here */}
       </div>
