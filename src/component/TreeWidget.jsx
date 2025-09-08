@@ -1,6 +1,16 @@
 import React from 'react';
 
-export default function TreeWidget({ iterations, setIterations, minAngle, setMinAngle, maxAngle, setMaxAngle, minBranch, setMinBranch, maxBranch, setMaxBranch, branchLengthFactor, setBranchLengthFactor, onRegenerate }) {
+export default function TreeWidget({
+  iterations, setIterations,
+  minAngle, setMinAngle,
+  maxAngle, setMaxAngle,
+  minBranch, setMinBranch,
+  maxBranch, setMaxBranch,
+  branchLengthFactor, setBranchLengthFactor,
+  trunkThickness, setTrunkThickness,
+  branchThicknessFactor, setBranchThicknessFactor,
+  onRegenerate
+}) {
   return (
     <div style={{ margin: '1em 0' }}>
       <div style={{ marginBottom: '1em' }}>
@@ -12,6 +22,32 @@ export default function TreeWidget({ iterations, setIterations, minAngle, setMin
           max={20}
           value={iterations}
           onChange={e => setIterations(Number(e.target.value))}
+          style={{ width: '60px' }}
+        />
+      </div>
+      <div style={{ marginBottom: '1em' }}>
+        <label htmlFor="trunkThickness">Trunk Thickness: </label>
+        <input
+          id="trunkThickness"
+          type="number"
+          min={0.1}
+          max={10}
+          step={0.01}
+          value={trunkThickness}
+          onChange={e => setTrunkThickness(Number(e.target.value))}
+          style={{ width: '60px' }}
+        />
+      </div>
+            <div style={{ marginBottom: '1em' }}>
+        <label htmlFor="branchThicknessFactor">Branch Thickness Factor: </label>
+        <input
+          id="branchThicknessFactor"
+          type="number"
+          min={0.1}
+          max={2}
+          step={0.01}
+          value={branchThicknessFactor}
+          onChange={e => setBranchThicknessFactor(Number(e.target.value))}
           style={{ width: '60px' }}
         />
       </div>

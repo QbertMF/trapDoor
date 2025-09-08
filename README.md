@@ -15,6 +15,8 @@ Run Project:
 npm run dev
 
 ToDo:
+- vary the thickness of the branches
+- Branches to branch off not at the tip but thrughout the parent branch
 - RenameRotatingCube into something with tree
 - rename project (if that is possible)
 
