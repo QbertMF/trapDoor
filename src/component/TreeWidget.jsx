@@ -9,7 +9,7 @@ export default function TreeWidget({ iterations, setIterations, minAngle, setMin
           id="iterations"
           type="number"
           min={1}
-          max={10}
+          max={20}
           value={iterations}
           onChange={e => setIterations(Number(e.target.value))}
           style={{ width: '60px' }}

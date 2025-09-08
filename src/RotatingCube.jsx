@@ -15,6 +15,9 @@ function RotatingCube() {
   const [minBranch, setMinBranch] = useState(1);
   const [maxBranch, setMaxBranch] = useState(3);
   const [branchLengthFactor, setBranchLengthFactor] = useState(0.8);
+  const [cameraRotationEnabled, setCameraRotationEnabled] = useState(true);
+  const orbitAzimuthRef = useRef(0); // horizontal angle
+  const orbitElevationRef = useRef(0); // vertical angle
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -37,13 +40,6 @@ function RotatingCube() {
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
 
-    // Static Sphere
-    const sphereGeometry = new THREE.SphereGeometry(0.75, 32, 32);
-    const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true });
-    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    sphere.position.set(2, 0, 0); // Move sphere to the right of the cube
-    scene.add(sphere);
-
     // Create tree parameters structure
     const treeParams = new TreeStructure({
       iterations,
@@ -61,8 +57,8 @@ function RotatingCube() {
     addTreeToScene(treeGroup, treeParams, rand);
     scene.add(treeGroup);
 
-    camera.position.z = 5;
-
+    camera.position.z = 10;
+    
     // Camera movement state
     const cameraSpeed = 0.1;
   const keys = { w: false, a: false, s: false, d: false, q: false, e: false, ArrowLeft: false, ArrowRight: false, ArrowUp: false, ArrowDown: false };
@@ -97,11 +93,12 @@ function RotatingCube() {
     window.addEventListener('keyup', handleKeyUp);
 
     // Camera orbit state
-  let orbitRadius = 5;
-  let orbitAzimuth = 0; // horizontal angle
-  let orbitElevation = 0; // vertical angle
-  const orbitSpeed = 0.03;
-  let orbitCenter = new THREE.Vector3(0, 0, 0);
+    let orbitRadius = 10;
+    // Use refs for azimuth/elevation
+    // let orbitAzimuth = 0; // horizontal angle
+    // let orbitElevation = 0; // vertical angle
+    const orbitSpeed = 0.03;
+    let orbitCenter = new THREE.Vector3(0, 0, 0);
 
     // Animation loop
     let frameId;
@@ -110,14 +107,14 @@ function RotatingCube() {
       // WASDQE move the orbit center (pan relative to camera orientation)
       // Calculate camera direction vectors
       const forward = new THREE.Vector3(
-        Math.sin(orbitAzimuth) * Math.cos(orbitElevation),
-        Math.sin(orbitElevation),
-        Math.cos(orbitAzimuth) * Math.cos(orbitElevation)
+        Math.sin(orbitAzimuthRef.current) * Math.cos(orbitElevationRef.current),
+        Math.sin(orbitElevationRef.current),
+        Math.cos(orbitAzimuthRef.current) * Math.cos(orbitElevationRef.current)
       ).normalize();
       const right = new THREE.Vector3(
-        Math.cos(orbitAzimuth),
+        Math.cos(orbitAzimuthRef.current),
         0,
-        -Math.sin(orbitAzimuth)
+        -Math.sin(orbitAzimuthRef.current)
       ).normalize();
       const up = new THREE.Vector3(0, 1, 0);
 
@@ -129,20 +126,25 @@ function RotatingCube() {
       if (keys.e) orbitCenter.add(up.clone().multiplyScalar(-cameraSpeed)); // Move down
 
       // Camera orbit (arrow keys)
-      if (keys.ArrowLeft) orbitAzimuth -= orbitSpeed;
-      if (keys.ArrowRight) orbitAzimuth += orbitSpeed;
-      if (keys.ArrowUp) orbitElevation = Math.min(orbitElevation + orbitSpeed, Math.PI/2 - 0.1);
-      if (keys.ArrowDown) orbitElevation = Math.max(orbitElevation - orbitSpeed, -Math.PI/2 + 0.1);
+      if (keys.ArrowLeft) orbitAzimuthRef.current -= orbitSpeed;
+      if (keys.ArrowRight) orbitAzimuthRef.current += orbitSpeed;
+      if (keys.ArrowUp) orbitElevationRef.current = Math.min(orbitElevationRef.current + orbitSpeed, Math.PI/2 - 0.1);
+      if (keys.ArrowDown) orbitElevationRef.current = Math.max(orbitElevationRef.current - orbitSpeed, -Math.PI/2 + 0.1);
+
+      // Slowly rotate camera around tree if enabled
+      if (cameraRotationEnabled) {
+        orbitAzimuthRef.current += 0.003;
+      }
 
       // Calculate camera position in orbit
-      camera.position.x = orbitCenter.x + orbitRadius * Math.cos(orbitElevation) * Math.sin(orbitAzimuth);
-      camera.position.y = orbitCenter.y + orbitRadius * Math.sin(orbitElevation);
-      camera.position.z = orbitCenter.z + orbitRadius * Math.cos(orbitElevation) * Math.cos(orbitAzimuth);
+      camera.position.x = orbitCenter.x + orbitRadius * Math.cos(orbitElevationRef.current) * Math.sin(orbitAzimuthRef.current);
+      camera.position.y = orbitCenter.y + orbitRadius * Math.sin(orbitElevationRef.current);
+      camera.position.z = orbitCenter.z + orbitRadius * Math.cos(orbitElevationRef.current) * Math.cos(orbitAzimuthRef.current);
       camera.lookAt(orbitCenter);
 
   cube.rotation.x += 0.01;
   cube.rotation.y += 0.01;
-  treeGroup.rotation.y += 0.003; // slow rotation
+  //treeGroup.rotation.y += 0.003; // Remove tree rotation, only camera orbits
   renderer.render(scene, camera);
   frameId = requestAnimationFrame(animate);
     };
@@ -158,7 +160,7 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor]);
+  }, [iterations, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, cameraRotationEnabled]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
@@ -179,6 +181,12 @@ function RotatingCube() {
           setBranchLengthFactor={setBranchLengthFactor}
           onRegenerate={() => setSeed(Math.floor(Math.random() * 1000000))}
         />
+        <button
+          style={{ marginTop: '1em', width: '100%' }}
+          onClick={() => setCameraRotationEnabled(v => !v)}
+        >
+          {cameraRotationEnabled ? 'Disable Camera Rotation' : 'Enable Camera Rotation'}
+        </button>
         {/* More parameter widgets can be added here */}
       </div>
     </div>
