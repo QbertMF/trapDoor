@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function TreeWidget({
   iterations, setIterations,
@@ -9,8 +9,10 @@ export default function TreeWidget({
   branchLengthFactor, setBranchLengthFactor,
   trunkThickness, setTrunkThickness,
   branchThicknessFactor, setBranchThicknessFactor,
+  folIterationStart, setFolIterationStart,
   onRegenerate
 }) {
+  const [foliageOpen, setFoliageOpen] = useState(false);
   return (
     <div style={{ margin: '1em 0' }}>
       <div style={{ marginBottom: '1em' }}>
@@ -111,6 +113,25 @@ export default function TreeWidget({
           onChange={e => setBranchLengthFactor(Number(e.target.value))}
           style={{ width: '60px' }}
         />
+      </div>
+      <div style={{ marginTop: '1em', border: '1px solid #ccc', borderRadius: '6px', padding: '0.5em' }}>
+        <div style={{ cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setFoliageOpen(v => !v)}>
+          {foliageOpen ? '▼' : '▶'} Foliage Parameters
+        </div>
+        {foliageOpen && (
+          <div style={{ marginTop: '1em' }}>
+            <label htmlFor="folIterationStart">Foliage Iteration Start: </label>
+            <input
+              id="folIterationStart"
+              type="number"
+              min={0}
+              max={iterations}
+              value={folIterationStart}
+              onChange={e => setFolIterationStart(Number(e.target.value))}
+              style={{ width: '60px' }}
+            />
+          </div>
+        )}
       </div>
       <div style={{ marginTop: '1em' }}>
         <button onClick={onRegenerate}>Regenerate Tree</button>

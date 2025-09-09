@@ -17,7 +17,7 @@ function generateBranches(start, direction, length, thickness, iterations, branc
   branches.push(new BranchStructure(start.clone(), end.clone(), thickness, thickness * treeParams.branchThicknessFactor));
 
   // Add leaf billboard sprite at last 2 iterations if foliageEnabled
-  if (treeParams.foliageEnabled && iterations <= 2) {
+  if (treeParams.foliageEnabled &&  iterations <= treeParams.folIterationStart) {
     const sprite = new THREE.Sprite(leafMaterial.clone());
     sprite.position.copy(end);
     // Random scale between 0.5 and 1.2

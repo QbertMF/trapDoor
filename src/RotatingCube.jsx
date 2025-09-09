@@ -19,6 +19,7 @@ function RotatingCube() {
   const [branchThicknessFactor, setBranchThicknessFactor] = useState(0.7); // default value
   const [cameraRotationEnabled, setCameraRotationEnabled] = useState(true);
   const [foliageEnabled, setFoliageEnabled] = useState(false); // default off
+  const [folIterationStart, setFolIterationStart] = useState(0);
   const orbitAzimuthRef = useRef(0); // horizontal angle
   const orbitElevationRef = useRef(0); // vertical angle
 
@@ -54,6 +55,7 @@ function RotatingCube() {
       trunkThickness,
       branchThicknessFactor,
       foliageEnabled,
+      folIterationStart,
       // Add more parameters here as needed
     });
     // Create seeded random generator
@@ -166,7 +168,7 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, cameraRotationEnabled]);
+  }, [iterations, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
@@ -189,6 +191,8 @@ function RotatingCube() {
           setTrunkThickness={setTrunkThickness}
           branchThicknessFactor={branchThicknessFactor}
           setBranchThicknessFactor={setBranchThicknessFactor}
+          folIterationStart={folIterationStart}
+          setFolIterationStart={setFolIterationStart}
           onRegenerate={() => setSeed(Math.floor(Math.random() * 1000000))}
         />
         <button

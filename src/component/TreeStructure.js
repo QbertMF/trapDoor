@@ -17,6 +17,7 @@ export class TreeStructure {
     branchLengthVariance = 0.2,
     position = { x: -2, y: -4, z: 0 },
     foliageEnabled = false,
+    folIterationStart = 0,
   } = {}) {
     this.iterations = iterations;
     this.minAngle = minAngle;
@@ -34,5 +35,6 @@ export class TreeStructure {
     this.branchLengthVariance = branchLengthVariance;
     this.position = position;
     this.foliageEnabled = foliageEnabled;
+    this.folIterationStart = folIterationStart;
   }
 }
