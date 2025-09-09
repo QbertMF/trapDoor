@@ -20,7 +20,11 @@ function generateBranches(start, direction, length, thickness, iterations, branc
   if (treeParams.foliageEnabled && iterations <= 2) {
     const sprite = new THREE.Sprite(leafMaterial.clone());
     sprite.position.copy(end);
-    sprite.scale.set(0.7, 0.7, 0.7); // Fixed size
+    // Random scale between 0.5 and 1.2
+    const scale = 0.5 + rand() * 0.7;
+    sprite.scale.set(scale, scale, scale);
+    // Random rotation between 0 and 2*PI
+    sprite.material.rotation = rand() * Math.PI * 2;
     scene.add(sprite);
   }
 
