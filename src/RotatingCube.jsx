@@ -5,6 +5,7 @@ import { addTreeToScene } from './component/Tree';
 import { createSeededRandom } from './component/SeededRandom';
 import { TreeStructure } from './component/TreeStructure';
 import TreeWidget from './component/TreeWidget';
+import Statistics from './component/Statistics';
 
 function RotatingCube() {
   const mountRef = useRef(null);
@@ -20,6 +21,8 @@ function RotatingCube() {
   const [cameraRotationEnabled, setCameraRotationEnabled] = useState(true);
   const [foliageEnabled, setFoliageEnabled] = useState(false); // default off
   const [folIterationStart, setFolIterationStart] = useState(0);
+  const [branchCount, setBranchCount] = useState(0);
+  const [foliageCount, setFoliageCount] = useState(0);
   const orbitAzimuthRef = useRef(0); // horizontal angle
   const orbitElevationRef = useRef(0); // vertical angle
 
@@ -62,7 +65,9 @@ function RotatingCube() {
     const rand = createSeededRandom(seed);
     // Add tree model to the scene as a group
     const treeGroup = new THREE.Group();
-    addTreeToScene(treeGroup, treeParams, rand);
+    const stats = addTreeToScene(treeGroup, treeParams, rand);
+    setBranchCount(stats.branchCount);
+    setFoliageCount(stats.foliageCount);
     scene.add(treeGroup);
 
     camera.position.z = 10;
@@ -171,7 +176,8 @@ function RotatingCube() {
   }, [iterations, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
+    <div style={{ position: 'relative', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
+      <Statistics branchCount={branchCount} foliageCount={foliageCount} />
       <div ref={mountRef} style={{ width: '1000px', height: '800px', margin: '0 auto' }} />
       <div>
         <TreeWidget
