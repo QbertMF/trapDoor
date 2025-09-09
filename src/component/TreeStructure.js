@@ -8,14 +8,15 @@ export class TreeStructure {
     trunkThickness = 0.2,
     branchLengthFactor = 0.7,
     branchThicknessFactor = 0.7,
-  branchCountMin = 2,
-  branchCountMax = 3,
-  minBranch = 1,
-  maxBranch = 3,
-  branchLengthShrink = 0.75,
-  branchLengthShrinkVariance = 0.4,
-  branchLengthVariance = 0.2,
-  position = { x: -2, y: -4, z: 0 },
+    branchCountMin = 2,
+    branchCountMax = 3,
+    minBranch = 1,
+    maxBranch = 3,
+    branchLengthShrink = 0.75,
+    branchLengthShrinkVariance = 0.4,
+    branchLengthVariance = 0.2,
+    position = { x: -2, y: -4, z: 0 },
+    foliageEnabled = false,
   } = {}) {
     this.iterations = iterations;
     this.minAngle = minAngle;
@@ -24,13 +25,14 @@ export class TreeStructure {
     this.trunkThickness = trunkThickness;
     this.branchLengthFactor = branchLengthFactor;
     this.branchThicknessFactor = branchThicknessFactor;
-  this.branchCountMin = branchCountMin;
-  this.branchCountMax = branchCountMax;
-  this.minBranch = minBranch;
-  this.maxBranch = maxBranch;
-  this.branchLengthShrink = branchLengthShrink;
-  this.branchLengthShrinkVariance = branchLengthShrinkVariance;
-  this.branchLengthVariance = branchLengthVariance;
-  this.position = position;
+    this.branchCountMin = branchCountMin;
+    this.branchCountMax = branchCountMax;
+    this.minBranch = minBranch;
+    this.maxBranch = maxBranch;
+    this.branchLengthShrink = branchLengthShrink;
+    this.branchLengthShrinkVariance = branchLengthShrinkVariance;
+    this.branchLengthVariance = branchLengthVariance;
+    this.position = position;
+    this.foliageEnabled = foliageEnabled;
   }
 }
