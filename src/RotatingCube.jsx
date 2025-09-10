@@ -17,14 +17,14 @@ function RotatingCube() {
   const [maxBranch, setMaxBranch] = useState(3);
   const [branchLengthFactor, setBranchLengthFactor] = useState(0.77);
   const [trunkThickness, setTrunkThickness] = useState(0.5); // default value
-  const [trunkLength, setTrunkLength] = useState(2.5);
-  const [branchThicknessFactor, setBranchThicknessFactor] = useState(0.7); // default value
+  const [trunkLength, setTrunkLength] = useState(2.8);
+  const [branchThicknessFactor, setBranchThicknessFactor] = useState(0.57); // default value
   const [cameraRotationEnabled, setCameraRotationEnabled] = useState(true);
   const [foliageEnabled, setFoliageEnabled] = useState(false); // default off
   const [folIterationStart, setFolIterationStart] = useState(1);
   const [branchCount, setBranchCount] = useState(0);
   const [foliageCount, setFoliageCount] = useState(0);
-  const [minBranchOffset, setMinBranchOffset] = useState(0.9);
+  const [minBranchOffset, setMinBranchOffset] = useState(0.79);
   const [maxBranchOffset, setMaxBranchOffset] = useState(1.0);
   const orbitAzimuthRef = useRef(0); // horizontal angle
   const orbitElevationRef = useRef(0); // vertical angle
