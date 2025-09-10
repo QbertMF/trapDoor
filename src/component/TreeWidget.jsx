@@ -16,6 +16,7 @@ export default function TreeWidget({
   onRegenerate
 }) {
   const [foliageOpen, setFoliageOpen] = useState(false);
+  const [trunkOpen, setTrunkOpen] = useState(false);
   return (
     <div style={{ margin: '1em 0' }}>
       <div style={{ marginBottom: '1em' }}>
@@ -30,32 +31,41 @@ export default function TreeWidget({
           style={{ width: '60px' }}
         />
       </div>
-            <div style={{ marginBottom: '1em' }}>
-        <label htmlFor="trunkLength">Trunk Length: </label>
-        <input
-          id="trunkLength"
-          type="number"
-          min={2.0}
-          max={30.0}
-          step={0.01}
-          value={trunkLength}
-          onChange={e => setTrunkLength(Number(e.target.value))}
-          style={{ width: '60px' }}
-        />
-      </div>
-      <div style={{ marginBottom: '1em' }}>
-        <label htmlFor="trunkThickness">Trunk Thickness: </label>
-        <input
-          id="trunkThickness"
-          type="number"
-          min={0.1}
-          max={10}
-          step={0.01}
-          value={trunkThickness}
-          onChange={e => setTrunkThickness(Number(e.target.value))}
-          style={{ width: '60px' }}
-        />
-      </div>
+            <div style={{ marginTop: '1em', border: '1px solid #ccc', borderRadius: '6px', padding: '0.5em' }}>
+              <div style={{ cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setTrunkOpen(v => !v)}>
+                {trunkOpen ? '▼' : '▶'} Trunk Parameters
+              </div>
+              {trunkOpen && (
+                <div style={{ marginTop: '1em' }}>
+                  <div style={{ marginBottom: '1em' }}>
+                    <label htmlFor="trunkLength">Trunk Length: </label>
+                    <input
+                      id="trunkLength"
+                      type="number"
+                      min={2.0}
+                      max={30.0}
+                      step={0.01}
+                      value={trunkLength}
+                      onChange={e => setTrunkLength(Number(e.target.value))}
+                      style={{ width: '60px' }}
+                    />
+                  </div>
+                  <div style={{ marginBottom: '1em' }}>
+                    <label htmlFor="trunkThickness">Trunk Thickness: </label>
+                    <input
+                      id="trunkThickness"
+                      type="number"
+                      min={0.1}
+                      max={10}
+                      step={0.01}
+                      value={trunkThickness}
+                      onChange={e => setTrunkThickness(Number(e.target.value))}
+                      style={{ width: '60px' }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
       <div style={{ marginBottom: '1em' }}>
         <label htmlFor="branchThicknessFactor">Branch Thickness Factor: </label>
         <input

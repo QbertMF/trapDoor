@@ -45,10 +45,10 @@ function RotatingCube() {
     mountRef.current.appendChild(renderer.domElement);
 
     // Rotating Cube
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    //const geometry = new THREE.BoxGeometry();
+    //const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    //const cube = new THREE.Mesh(geometry, material);
+    //scene.add(cube);
 
     // Create tree parameters structure
     const treeParams = new TreeStructure({
@@ -161,8 +161,8 @@ function RotatingCube() {
       camera.position.z = orbitCenter.z + orbitRadius * Math.cos(orbitElevationRef.current) * Math.cos(orbitAzimuthRef.current);
       camera.lookAt(orbitCenter);
 
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
+  //cube.rotation.x += 0.01;
+  //cube.rotation.y += 0.01;
   //treeGroup.rotation.y += 0.003; // Remove tree rotation, only camera orbits
   renderer.render(scene, camera);
   frameId = requestAnimationFrame(animate);
