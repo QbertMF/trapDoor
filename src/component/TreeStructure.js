@@ -4,7 +4,7 @@ export class TreeStructure {
     iterations = 4,
     minAngle = 15,
     maxAngle = 45,
-    trunkLength = 2,
+  trunkLength = 2,
     trunkThickness = 0.2,
     branchLengthFactor = 0.7,
     branchThicknessFactor = 0.7,
@@ -24,7 +24,7 @@ export class TreeStructure {
     this.iterations = iterations;
     this.minAngle = minAngle;
     this.maxAngle = maxAngle;
-    this.trunkLength = trunkLength;
+  this.trunkLength = trunkLength;
     this.trunkThickness = trunkThickness;
     this.branchLengthFactor = branchLengthFactor;
     this.branchThicknessFactor = branchThicknessFactor;

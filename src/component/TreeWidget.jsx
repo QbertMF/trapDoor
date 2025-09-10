@@ -12,6 +12,7 @@ export default function TreeWidget({
   folIterationStart, setFolIterationStart,
   minBranchOffset, setMinBranchOffset,
   maxBranchOffset, setMaxBranchOffset,
+  trunkLength, setTrunkLength,
   onRegenerate
 }) {
   const [foliageOpen, setFoliageOpen] = useState(false);
@@ -26,6 +27,19 @@ export default function TreeWidget({
           max={20}
           value={iterations}
           onChange={e => setIterations(Number(e.target.value))}
+          style={{ width: '60px' }}
+        />
+      </div>
+            <div style={{ marginBottom: '1em' }}>
+        <label htmlFor="trunkLength">Trunk Length: </label>
+        <input
+          id="trunkLength"
+          type="number"
+          min={2.0}
+          max={30.0}
+          step={0.01}
+          value={trunkLength}
+          onChange={e => setTrunkLength(Number(e.target.value))}
           style={{ width: '60px' }}
         />
       </div>

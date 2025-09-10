@@ -17,6 +17,7 @@ function RotatingCube() {
   const [maxBranch, setMaxBranch] = useState(3);
   const [branchLengthFactor, setBranchLengthFactor] = useState(0.8);
   const [trunkThickness, setTrunkThickness] = useState(0.5); // default value
+  const [trunkLength, setTrunkLength] = useState(2.0);
   const [branchThicknessFactor, setBranchThicknessFactor] = useState(0.7); // default value
   const [cameraRotationEnabled, setCameraRotationEnabled] = useState(true);
   const [foliageEnabled, setFoliageEnabled] = useState(false); // default off
@@ -58,6 +59,7 @@ function RotatingCube() {
       maxBranch,
       branchLengthFactor,
       trunkThickness,
+      trunkLength,
       branchThicknessFactor,
       foliageEnabled,
       folIterationStart,
@@ -177,7 +179,7 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset]);
+  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset]);
 
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
@@ -199,6 +201,8 @@ function RotatingCube() {
           setBranchLengthFactor={setBranchLengthFactor}
           trunkThickness={trunkThickness}
           setTrunkThickness={setTrunkThickness}
+          trunkLength={trunkLength}
+          setTrunkLength={setTrunkLength}
           branchThicknessFactor={branchThicknessFactor}
           setBranchThicknessFactor={setBranchThicknessFactor}
           folIterationStart={folIterationStart}
