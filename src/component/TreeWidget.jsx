@@ -10,6 +10,8 @@ export default function TreeWidget({
   trunkThickness, setTrunkThickness,
   branchThicknessFactor, setBranchThicknessFactor,
   folIterationStart, setFolIterationStart,
+  minBranchOffset, setMinBranchOffset,
+  maxBranchOffset, setMaxBranchOffset,
   onRegenerate
 }) {
   const [foliageOpen, setFoliageOpen] = useState(false);
@@ -40,7 +42,7 @@ export default function TreeWidget({
           style={{ width: '60px' }}
         />
       </div>
-            <div style={{ marginBottom: '1em' }}>
+      <div style={{ marginBottom: '1em' }}>
         <label htmlFor="branchThicknessFactor">Branch Thickness Factor: </label>
         <input
           id="branchThicknessFactor"
@@ -111,6 +113,32 @@ export default function TreeWidget({
           step={0.01}
           value={branchLengthFactor}
           onChange={e => setBranchLengthFactor(Number(e.target.value))}
+          style={{ width: '60px' }}
+        />
+      </div>
+      <div style={{ marginBottom: '1em' }}>
+        <label htmlFor="minBranchOffset">Min Branch Offset: </label>
+        <input
+          id="minBranchOffset"
+          type="number"
+          min={0.0}
+          max={1.0}
+          step={0.01}
+          value={minBranchOffset}
+          onChange={e => setMinBranchOffset(Number(e.target.value))}
+          style={{ width: '60px' }}
+        />
+      </div>
+      <div style={{ marginBottom: '1em' }}>
+        <label htmlFor="maxBranchOffset">Max Branch Offset: </label>
+        <input
+          id="maxBranchOffset"
+          type="number"
+          min={0.0}
+          max={1.0}
+          step={0.01}
+          value={maxBranchOffset}
+          onChange={e => setMaxBranchOffset(Number(e.target.value))}
           style={{ width: '60px' }}
         />
       </div>

@@ -31,6 +31,10 @@ function generateBranches(start, direction, length, thickness, iterations, branc
   // Number of branches at this node
   const branchCount = treeParams.minBranch + Math.floor(rand() * (treeParams.maxBranch - treeParams.minBranch + 1));
   for (let i = 0; i < branchCount; i++) {
+    // Random offset along the parent branch
+    const offsetFactor = treeParams.minBranchOffset + rand() * (treeParams.maxBranchOffset - treeParams.minBranchOffset);
+    const branchStart = start.clone().add(direction.clone().multiplyScalar(length * offsetFactor));
+
     // Random angle between minAngle and maxAngle (degrees to radians)
     const angleDeg = treeParams.minAngle + rand() * (treeParams.maxAngle - treeParams.minAngle);
     const angleRad = angleDeg * Math.PI / 180;
@@ -47,7 +51,7 @@ function generateBranches(start, direction, length, thickness, iterations, branc
     // Each branch length is shorter by branchLengthFactor relative to its parent, plus random variance
     const nextLength = length * treeParams.branchLengthFactor + (rand() - 0.5) * treeParams.branchLengthVariance;
     generateBranches(
-      end,
+      branchStart,
       branchDir,
       nextLength,
       thickness * treeParams.branchThicknessFactor,
@@ -80,6 +84,10 @@ export function addTreeToScene(scene, treeParams, rand) {
     }
     const branchCount = treeParams.minBranch + Math.floor(rand() * (treeParams.maxBranch - treeParams.minBranch + 1));
     for (let i = 0; i < branchCount; i++) {
+      // Random offset along the parent branch
+      const offsetFactor = treeParams.minBranchOffset + rand() * (treeParams.maxBranchOffset - treeParams.minBranchOffset);
+      const branchStart = start.clone().add(direction.clone().multiplyScalar(length * offsetFactor));
+
       const angleDeg = treeParams.minAngle + rand() * (treeParams.maxAngle - treeParams.minAngle);
       const angleRad = angleDeg * Math.PI / 180;
       let randomDir = new THREE.Vector3(rand() - 0.5, rand() - 0.5, rand() - 0.5).normalize();
@@ -90,7 +98,7 @@ export function addTreeToScene(scene, treeParams, rand) {
       const branchDir = direction.clone().applyAxisAngle(axis, angleRad).normalize();
       const nextLength = length * treeParams.branchLengthFactor + (rand() - 0.5) * treeParams.branchLengthVariance;
       generateBranchesCounted(
-        end,
+        branchStart,
         branchDir,
         nextLength,
         thickness * treeParams.branchThicknessFactor,

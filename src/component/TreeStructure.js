@@ -18,6 +18,8 @@ export class TreeStructure {
     position = { x: -2, y: -4, z: 0 },
     foliageEnabled = false,
     folIterationStart = 0,
+    minBranchOffset = 1.0,
+    maxBranchOffset = 1.0,
   } = {}) {
     this.iterations = iterations;
     this.minAngle = minAngle;
@@ -36,5 +38,7 @@ export class TreeStructure {
     this.position = position;
     this.foliageEnabled = foliageEnabled;
     this.folIterationStart = folIterationStart;
+    this.minBranchOffset = minBranchOffset;
+    this.maxBranchOffset = maxBranchOffset;
   }
 }
