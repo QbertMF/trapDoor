@@ -2,11 +2,18 @@ import * as THREE from 'three';
 import { BranchStructure } from './BranchStructure';
 import { TreeStructure } from './TreeStructure';
 import leafImg from '../../assets/green-leaves-tree-branch.png';
+import barkImg from '../../assets/Bark001_1K/Bark001_1K-JPG_Color.jpg';
 
 // Load leaf texture and material once
 const leafTexture = new THREE.TextureLoader().load(leafImg);
 const leafMaterial = new THREE.SpriteMaterial({ map: leafTexture });
 leafMaterial.rotation = Math.PI / 4; // Fixed rotation (45 degrees)
+
+// Load bark texture once
+const barkTexture = new THREE.TextureLoader().load(barkImg);
+// Set wrapping so it tiles correctly on cylinders
+barkTexture.wrapS = THREE.RepeatWrapping;
+barkTexture.wrapT = THREE.RepeatWrapping;
 
 // Recursive function to generate branches
 function generateBranches(start, direction, length, thickness, iterations, branches, treeParams, rand, scene) {
@@ -115,15 +122,18 @@ export function addTreeToScene(scene, treeParams, rand) {
   generateBranchesCounted(trunkStart, trunkDir, treeParams.trunkLength, treeParams.trunkThickness, treeParams.iterations, branches, treeParams, rand, scene);
 
   branches.forEach(branch => {
-    const dir = branch.end.clone().sub(branch.start);
-    const length = dir.length();
-    dir.normalize();
-    const geometry = new THREE.CylinderGeometry(branch.endThickness, branch.startThickness, length, 8);
-    const material = new THREE.MeshBasicMaterial({ color: 0x8B4513 });
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.copy(branch.start.clone().add(dir.clone().multiplyScalar(length/2)));
-    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), dir);
-    scene.add(mesh);
+  const dir = branch.end.clone().sub(branch.start);
+  const length = dir.length();
+  dir.normalize();
+  const geometry = new THREE.CylinderGeometry(branch.endThickness, branch.startThickness, length, 8);
+  // Repeat the bark texture along the cylinder's length and circumference
+  const barkRepeatY = Math.max(1, length / 2); // Adjust as needed for tiling
+  barkTexture.repeat.set(1, barkRepeatY);
+  const material = new THREE.MeshBasicMaterial({ map: barkTexture });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.copy(branch.start.clone().add(dir.clone().multiplyScalar(length/2)));
+  mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), dir);
+  scene.add(mesh);
   });
   return { branchCount: branches.length, foliageCount };
 }
