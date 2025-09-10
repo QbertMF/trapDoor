@@ -177,7 +177,7 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, cameraRotationEnabled, minBranchOffset, maxBranchOffset]);
+  }, [iterations, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset]);
 
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
