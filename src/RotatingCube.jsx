@@ -10,17 +10,17 @@ import Statistics from './component/Statistics';
 function RotatingCube() {
   const mountRef = useRef(null);
   const [iterations, setIterations] = useState(8);
-  const [seed, setSeed] = useState(() => Math.floor(Math.random() * 1000000));
+  const [seed, setSeed] = useState(872761); //() => Math.floor(Math.random() * 1000000));
   const [minAngle, setMinAngle] = useState(15);
   const [maxAngle, setMaxAngle] = useState(45);
   const [minBranch, setMinBranch] = useState(1);
   const [maxBranch, setMaxBranch] = useState(3);
   const [branchLengthFactor, setBranchLengthFactor] = useState(0.77);
-  const [trunkThickness, setTrunkThickness] = useState(0.5); // default value
-  const [trunkLength, setTrunkLength] = useState(2.8);
-  const [branchThicknessFactor, setBranchThicknessFactor] = useState(0.57); // default value
-  const [leafTextureSize, setLeafTextureSize] = useState(1.0); // default value
-  const [barkColor, setBarkColor] = useState(0x8B4513); // default value
+  const [trunkThickness, setTrunkThickness] = useState(3.0); // default value
+  const [trunkLength, setTrunkLength] = useState(10.0);
+  const [branchThicknessFactor, setBranchThicknessFactor] = useState(0.48); // default value
+  const [leafTextureSize, setLeafTextureSize] = useState(5.0); // default value
+  const [barkColor, setBarkColor] = useState(0x9c6131); // default value
   const [cameraRotationEnabled, setCameraRotationEnabled] = useState(true);
   const [foliageEnabled, setFoliageEnabled] = useState(false); // default off
   const [folIterationStart, setFolIterationStart] = useState(1);
@@ -28,7 +28,7 @@ function RotatingCube() {
   const [foliageCount, setFoliageCount] = useState(0);
   const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0, z: 10 });
   const [minBranchOffset, setMinBranchOffset] = useState(0.79);
-  const [maxBranchOffset, setMaxBranchOffset] = useState(1.0);
+  const [maxBranchOffset, setMaxBranchOffset] = useState(0.85);
   const orbitAzimuthRef = useRef(0); // horizontal angle
   const orbitElevationRef = useRef(0); // vertical angle
 
@@ -47,18 +47,18 @@ function RotatingCube() {
     renderer.setSize(width, height);
     mountRef.current.appendChild(renderer.domElement);
 
-  // Add lighting for MeshStandardMaterial
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
-  directionalLight.position.set(10, -20, -80);
-  scene.add(directionalLight);
+    // Add lighting for MeshStandardMaterial
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    directionalLight.position.set(10, -20, -80);
+    scene.add(directionalLight);
 
-   // Add lighting for MeshStandardMaterial
-  const directionalLight2 = new THREE.DirectionalLight(0x888888, 1.2);
-  directionalLight2.position.set(10, 20, 80);
-  scene.add(directionalLight2);
+    // Add lighting for MeshStandardMaterial
+    const directionalLight2 = new THREE.DirectionalLight(0x888888, 1.2);
+    directionalLight2.position.set(10, 20, 80);
+    scene.add(directionalLight2);
 
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-  scene.add(ambientLight);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
 
     // Rotating Cube
     //const geometry = new THREE.BoxGeometry();
@@ -66,7 +66,7 @@ function RotatingCube() {
     //const cube = new THREE.Mesh(geometry, material);
     //scene.add(cube);
 
-    // Create tree parameters structure
+    // Move tree down by offsetting position.y
     const treeParams = new TreeStructure({
       iterations,
       minAngle,
@@ -83,6 +83,7 @@ function RotatingCube() {
       maxBranchOffset,
       leafTextureSize,
       barkColor,
+      position: { x: 0, y: -5, z: 0 }, // move tree down
       // Add more parameters here as needed
     });
     // Create seeded random generator
@@ -130,12 +131,12 @@ function RotatingCube() {
     window.addEventListener('keyup', handleKeyUp);
 
     // Camera orbit state
-    let orbitRadius = 10;
-    // Use refs for azimuth/elevation
-    // let orbitAzimuth = 0; // horizontal angle
-    // let orbitElevation = 0; // vertical angle
-    const orbitSpeed = 0.03;
-    let orbitCenter = new THREE.Vector3(0, 0, 0);
+  let orbitRadius = 30; // move camera further away
+  // Use refs for azimuth/elevation
+  // let orbitAzimuth = 0; // horizontal angle
+  // let orbitElevation = 0; // vertical angle
+  const orbitSpeed = 0.03;
+  let orbitCenter = new THREE.Vector3(0, 10, 0); // orbit around y=10
 
     // Animation loop
     let frameId;
