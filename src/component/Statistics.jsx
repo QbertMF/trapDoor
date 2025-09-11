@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Statistics({ branchCount, foliageCount }) {
+export default function Statistics({ branchCount, foliageCount, cameraPosition }) {
   return (
     <div style={{
       position: 'absolute',
@@ -15,7 +15,10 @@ export default function Statistics({ branchCount, foliageCount }) {
       pointerEvents: 'none',
     }}>
       Branches: {branchCount}<br />
-      Foliage Sprites: {foliageCount}
+      Foliage Sprites: {foliageCount}<br />
+      {cameraPosition && typeof cameraPosition.x === 'number' && (
+        <>Camera Position: {cameraPosition.x.toFixed(2)}, {cameraPosition.y.toFixed(2)}, {cameraPosition.z.toFixed(2)}</>
+      )}
     </div>
   );
 }

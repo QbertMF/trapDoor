@@ -39,7 +39,7 @@ function generateBranches(start, direction, length, thickness, iterations, branc
     new BranchStructure(start.clone(), end.clone(), thickness, endThickness),
     { iteration: iterations }
   );
-  console.log(`Iteration ${iterations}: startThickness=${branchObj.startThickness}, endThickness=${branchObj.endThickness}, start=(${branchObj.start.x.toFixed(2)},${branchObj.start.y.toFixed(2)},${branchObj.start.z.toFixed(2)}), end=(${branchObj.end.x.toFixed(2)},${branchObj.end.y.toFixed(2)},${branchObj.end.z.toFixed(2)})`);
+  //console.log(`Iteration ${iterations}: startThickness=${branchObj.startThickness}, endThickness=${branchObj.endThickness}, start=(${branchObj.start.x.toFixed(2)},${branchObj.start.y.toFixed(2)},${branchObj.start.z.toFixed(2)}), end=(${branchObj.end.x.toFixed(2)},${branchObj.end.y.toFixed(2)},${branchObj.end.z.toFixed(2)})`);
   branches.push(branchObj);
 
   // Number of branches at this node
@@ -103,6 +103,7 @@ export function addTreeToScene(scene, treeParams, rand) {
     const length = dir.length();
     dir.normalize();
     const geometry = new THREE.CylinderGeometry(branch.endThickness, branch.startThickness, length, 8);
+    //console.log(`Creating branch mesh: startThickness=${branch.startThickness}, endThickness=${branch.endThickness}, length=${length.toFixed(2)}`);
     // Repeat the bark texture and all maps along the cylinder's length and circumference
     const barkRepeatY = Math.max(1, length / 2); // Adjust as needed for tiling
     barkTexture.repeat.set(1, barkRepeatY);

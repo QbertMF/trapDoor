@@ -26,6 +26,7 @@ function RotatingCube() {
   const [folIterationStart, setFolIterationStart] = useState(1);
   const [branchCount, setBranchCount] = useState(0);
   const [foliageCount, setFoliageCount] = useState(0);
+  const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0, z: 10 });
   const [minBranchOffset, setMinBranchOffset] = useState(0.79);
   const [maxBranchOffset, setMaxBranchOffset] = useState(1.0);
   const orbitAzimuthRef = useRef(0); // horizontal angle
@@ -93,11 +94,11 @@ function RotatingCube() {
     setFoliageCount(stats.foliageCount);
     scene.add(treeGroup);
 
-    camera.position.z = 10;
+    camera.position.z = 60;
     
     // Camera movement state
     const cameraSpeed = 0.1;
-  const keys = { w: false, a: false, s: false, d: false, q: false, e: false, ArrowLeft: false, ArrowRight: false, ArrowUp: false, ArrowDown: false };
+    const keys = { w: false, a: false, s: false, d: false, q: false, e: false, ArrowLeft: false, ArrowRight: false, ArrowUp: false, ArrowDown: false };
 
     // Keydown handler
     const handleKeyDown = (e) => {
@@ -177,12 +178,13 @@ function RotatingCube() {
       camera.position.y = orbitCenter.y + orbitRadius * Math.sin(orbitElevationRef.current);
       camera.position.z = orbitCenter.z + orbitRadius * Math.cos(orbitElevationRef.current) * Math.cos(orbitAzimuthRef.current);
       camera.lookAt(orbitCenter);
+      setCameraPosition({ x: camera.position.x, y: camera.position.y, z: camera.position.z });
 
-  //cube.rotation.x += 0.01;
-  //cube.rotation.y += 0.01;
-  //treeGroup.rotation.y += 0.003; // Remove tree rotation, only camera orbits
-  renderer.render(scene, camera);
-  frameId = requestAnimationFrame(animate);
+      //cube.rotation.x += 0.01;
+      //cube.rotation.y += 0.01;
+      //treeGroup.rotation.y += 0.003; // Remove tree rotation, only camera orbits
+      renderer.render(scene, camera);
+      frameId = requestAnimationFrame(animate);
     };
     animate();
 
@@ -200,7 +202,7 @@ function RotatingCube() {
 
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
-      <Statistics branchCount={branchCount} foliageCount={foliageCount} />
+  <Statistics branchCount={branchCount} foliageCount={foliageCount} cameraPosition={cameraPosition} />
       <div ref={mountRef} style={{ width: '1000px', height: '800px', margin: '0 auto' }} />
       <div>
         <TreeWidget
