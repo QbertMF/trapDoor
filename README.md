@@ -23,6 +23,7 @@ npm run dev
 
 ToDo:
 - Add bark to tree
+- make first trunk different from the following
 - vary the thickness of the branches
 - Branches to branch off not at the tip but throughout the parent branch
     - try to avoid gaps beween branches. Do not start child branches at the tip of the parent branch.
