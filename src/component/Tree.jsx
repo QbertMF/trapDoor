@@ -96,7 +96,7 @@ export function addTreeToScene(scene, treeParams, rand) {
     roughnessMap: barkRoughnessTexture,
     displacementMap: barkDisplacementTexture,
     displacementScale: 0.1,
-    color: 0x8B4513
+    color: treeParams.barkColor
   });
   branches.forEach(branch => {
     const dir = branch.end.clone().sub(branch.start);

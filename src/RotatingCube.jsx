@@ -20,6 +20,7 @@ function RotatingCube() {
   const [trunkLength, setTrunkLength] = useState(2.8);
   const [branchThicknessFactor, setBranchThicknessFactor] = useState(0.57); // default value
   const [leafTextureSize, setLeafTextureSize] = useState(1.0); // default value
+  const [barkColor, setBarkColor] = useState(0x8B4513); // default value
   const [cameraRotationEnabled, setCameraRotationEnabled] = useState(true);
   const [foliageEnabled, setFoliageEnabled] = useState(false); // default off
   const [folIterationStart, setFolIterationStart] = useState(1);
@@ -80,6 +81,7 @@ function RotatingCube() {
       minBranchOffset,
       maxBranchOffset,
       leafTextureSize,
+      barkColor,
       // Add more parameters here as needed
     });
     // Create seeded random generator
@@ -194,7 +196,7 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset, leafTextureSize]);
+  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset, leafTextureSize, barkColor]);
 
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
@@ -228,6 +230,8 @@ function RotatingCube() {
           setMaxBranchOffset={setMaxBranchOffset}
           leafTextureSize={leafTextureSize}
           setLeafTextureSize={setLeafTextureSize}
+          barkColor={barkColor}
+          setBarkColor={setBarkColor}
           seed={seed}
           setSeed={setSeed}
           onRegenerate={() => setSeed(Math.floor(Math.random() * 1000000))}

@@ -9,6 +9,7 @@ export default function TreeWidget({
   branchLengthFactor, setBranchLengthFactor,
   trunkThickness, setTrunkThickness,
   branchThicknessFactor, setBranchThicknessFactor,
+  barkColor, setBarkColor,
   folIterationStart, setFolIterationStart,
   minBranchOffset, setMinBranchOffset,
   maxBranchOffset, setMaxBranchOffset,
@@ -98,6 +99,16 @@ export default function TreeWidget({
                 value={branchThicknessFactor}
                 onChange={e => setBranchThicknessFactor(Number(e.target.value))}
                 style={{ width: '60px' }}
+              />
+            </div>
+            <div style={{ marginBottom: '1em' }}>
+              <label htmlFor="barkColor">Bark Color: </label>
+              <input
+                id="barkColor"
+                type="color"
+                value={`#${barkColor.toString(16).padStart(6, '0')}`}
+                onChange={e => setBarkColor(parseInt(e.target.value.replace('#', ''), 16))}
+                style={{ width: '60px', height: '30px', verticalAlign: 'middle' }}
               />
             </div>
             <div style={{ marginBottom: '1em' }}>

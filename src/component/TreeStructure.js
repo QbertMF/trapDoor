@@ -20,7 +20,8 @@ export class TreeStructure {
     folIterationStart = 0,
     minBranchOffset = 1.0,
     maxBranchOffset = 1.0,
-    leafTextureSize = 1.0,
+  leafTextureSize = 1.0,
+  barkColor = 0x8B4513,
   } = {}) {
   this.iterations = iterations;
   this.minAngle = minAngle;
@@ -42,5 +43,6 @@ export class TreeStructure {
   this.minBranchOffset = minBranchOffset;
   this.maxBranchOffset = maxBranchOffset;
   this.leafTextureSize = leafTextureSize;
+  this.barkColor = barkColor;
   }
 }
