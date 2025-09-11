@@ -3,6 +3,8 @@ import { BranchStructure } from './BranchStructure';
 import { TreeStructure } from './TreeStructure';
 import leafImg from '../../assets/green-leaves-tree-branch.png';
 import barkImg from '../../assets/Bark001_1K/Bark001_1K-JPG_Color.jpg';
+import barkImg2 from '../../assets/Bark006_1K-JPG_Color.jpg';
+import barkImg3 from '../../assets/Bark014_1K-JPG_Color.jpg';
 
 // Load leaf texture and material once
 const leafTexture = new THREE.TextureLoader().load(leafImg);
@@ -13,7 +15,7 @@ leafMaterial.rotation = Math.PI / 4; // Fixed rotation (45 degrees)
 const barkTexture = new THREE.TextureLoader().load(barkImg);
 // Set wrapping so it tiles correctly on cylinders
 barkTexture.wrapS = THREE.RepeatWrapping;
-barkTexture.wrapT = THREE.RepeatWrapping;
+barkTexture.wrapT = THREE.RepeatWrapping;w
 
 // Recursive function to generate branches
 function generateBranches(start, direction, length, thickness, iterations, branches, treeParams, rand) {
@@ -80,7 +82,7 @@ export function addTreeToScene(scene, treeParams, rand) {
     // Repeat the bark texture along the cylinder's length and circumference
     const barkRepeatY = Math.max(1, length / 2); // Adjust as needed for tiling
     barkTexture.repeat.set(1, barkRepeatY);
-    const material = new THREE.MeshBasicMaterial({ map: barkTexture });
+  const material = new THREE.MeshBasicMaterial({ map: barkTexture, color: 0xaB5533 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.copy(branch.start.clone().add(dir.clone().multiplyScalar(length/2)));
     mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), dir);
