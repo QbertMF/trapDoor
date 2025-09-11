@@ -19,6 +19,7 @@ function RotatingCube() {
   const [trunkThickness, setTrunkThickness] = useState(0.5); // default value
   const [trunkLength, setTrunkLength] = useState(2.8);
   const [branchThicknessFactor, setBranchThicknessFactor] = useState(0.57); // default value
+  const [leafTextureSize, setLeafTextureSize] = useState(1.0); // default value
   const [cameraRotationEnabled, setCameraRotationEnabled] = useState(true);
   const [foliageEnabled, setFoliageEnabled] = useState(false); // default off
   const [folIterationStart, setFolIterationStart] = useState(1);
@@ -44,6 +45,19 @@ function RotatingCube() {
     renderer.setSize(width, height);
     mountRef.current.appendChild(renderer.domElement);
 
+  // Add lighting for MeshStandardMaterial
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  directionalLight.position.set(10, -20, -80);
+  scene.add(directionalLight);
+
+   // Add lighting for MeshStandardMaterial
+  const directionalLight2 = new THREE.DirectionalLight(0x888888, 1.2);
+  directionalLight2.position.set(10, 20, 80);
+  scene.add(directionalLight2);
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(ambientLight);
+
     // Rotating Cube
     //const geometry = new THREE.BoxGeometry();
     //const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
@@ -65,6 +79,7 @@ function RotatingCube() {
       folIterationStart,
       minBranchOffset,
       maxBranchOffset,
+      leafTextureSize,
       // Add more parameters here as needed
     });
     // Create seeded random generator
@@ -179,7 +194,7 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset]);
+  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset, leafTextureSize]);
 
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
@@ -211,6 +226,8 @@ function RotatingCube() {
           setMinBranchOffset={setMinBranchOffset}
           maxBranchOffset={maxBranchOffset}
           setMaxBranchOffset={setMaxBranchOffset}
+          leafTextureSize={leafTextureSize}
+          setLeafTextureSize={setLeafTextureSize}
           seed={seed}
           setSeed={setSeed}
           onRegenerate={() => setSeed(Math.floor(Math.random() * 1000000))}

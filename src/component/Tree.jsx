@@ -3,8 +3,9 @@ import { BranchStructure } from './BranchStructure';
 import { TreeStructure } from './TreeStructure';
 import leafImg from '../../assets/green-leaves-tree-branch.png';
 import barkImg from '../../assets/Bark001_1K/Bark001_1K-JPG_Color.jpg';
-import barkImg2 from '../../assets/Bark006_1K-JPG_Color.jpg';
-import barkImg3 from '../../assets/Bark014_1K-JPG_Color.jpg';
+import barkNormal from '../../assets/Bark001_1K/Bark001_1K-JPG_NormalGL.jpg';
+import barkRoughness from '../../assets/Bark001_1K/Bark001_1K-JPG_Roughness.jpg';
+import barkDisplacement from '../../assets/Bark001_1K/Bark001_1K-JPG_Displacement.jpg';
 
 // Load leaf texture and material once
 const leafTexture = new THREE.TextureLoader().load(leafImg);
@@ -13,9 +14,18 @@ leafMaterial.rotation = Math.PI / 4; // Fixed rotation (45 degrees)
 
 // Load bark texture once
 const barkTexture = new THREE.TextureLoader().load(barkImg);
+const barkNormalTexture = new THREE.TextureLoader().load(barkNormal);
+const barkRoughnessTexture = new THREE.TextureLoader().load(barkRoughness);
+const barkDisplacementTexture = new THREE.TextureLoader().load(barkDisplacement);
 // Set wrapping so it tiles correctly on cylinders
 barkTexture.wrapS = THREE.RepeatWrapping;
-barkTexture.wrapT = THREE.RepeatWrapping;w
+barkTexture.wrapT = THREE.RepeatWrapping;
+barkNormalTexture.wrapS = THREE.RepeatWrapping;
+barkNormalTexture.wrapT = THREE.RepeatWrapping;
+barkRoughnessTexture.wrapS = THREE.RepeatWrapping;
+barkRoughnessTexture.wrapT = THREE.RepeatWrapping;
+barkDisplacementTexture.wrapS = THREE.RepeatWrapping;
+barkDisplacementTexture.wrapT = THREE.RepeatWrapping;
 
 // Recursive function to generate branches
 function generateBranches(start, direction, length, thickness, iterations, branches, treeParams, rand) {
@@ -23,11 +33,14 @@ function generateBranches(start, direction, length, thickness, iterations, branc
 
   // Calculate end point
   const end = start.clone().add(direction.clone().multiplyScalar(length));
-  // Pass current iteration to BranchStructure for foliage placement
-  branches.push(Object.assign(
-    new BranchStructure(start.clone(), end.clone(), thickness, thickness * treeParams.branchThicknessFactor),
+  // Calculate end thickness for this branch
+  const endThickness = thickness * treeParams.branchThicknessFactor;
+  const branchObj = Object.assign(
+    new BranchStructure(start.clone(), end.clone(), thickness, endThickness),
     { iteration: iterations }
-  ));
+  );
+  console.log(`Iteration ${iterations}: startThickness=${branchObj.startThickness}, endThickness=${branchObj.endThickness}, start=(${branchObj.start.x.toFixed(2)},${branchObj.start.y.toFixed(2)},${branchObj.start.z.toFixed(2)}), end=(${branchObj.end.x.toFixed(2)},${branchObj.end.y.toFixed(2)},${branchObj.end.z.toFixed(2)})`);
+  branches.push(branchObj);
 
   // Number of branches at this node
   const branchCount = treeParams.minBranch + Math.floor(rand() * (treeParams.maxBranch - treeParams.minBranch + 1));
@@ -51,11 +64,14 @@ function generateBranches(start, direction, length, thickness, iterations, branc
     const branchDir = direction.clone().applyAxisAngle(axis, angleRad).normalize();
     // Each branch length is shorter by branchLengthFactor relative to its parent, plus random variance
     const nextLength = length * treeParams.branchLengthFactor + (rand() - 0.5) * treeParams.branchLengthVariance;
+
+    // For child branches, thickness should start at endThickness and taper further
+    const childStartThickness = endThickness;
     generateBranches(
       branchStart,
       branchDir,
       nextLength,
-      thickness * treeParams.branchThicknessFactor,
+      childStartThickness,
       iterations - 1,
       branches,
       treeParams,
@@ -79,10 +95,20 @@ export function addTreeToScene(scene, treeParams, rand) {
     const length = dir.length();
     dir.normalize();
     const geometry = new THREE.CylinderGeometry(branch.endThickness, branch.startThickness, length, 8);
-    // Repeat the bark texture along the cylinder's length and circumference
+    // Repeat the bark texture and all maps along the cylinder's length and circumference
     const barkRepeatY = Math.max(1, length / 2); // Adjust as needed for tiling
     barkTexture.repeat.set(1, barkRepeatY);
-  const material = new THREE.MeshBasicMaterial({ map: barkTexture, color: 0xaB5533 });
+    barkNormalTexture.repeat.set(1, barkRepeatY);
+    barkRoughnessTexture.repeat.set(1, barkRepeatY);
+    barkDisplacementTexture.repeat.set(1, barkRepeatY);
+    const material = new THREE.MeshStandardMaterial({
+      map: barkTexture,
+      normalMap: barkNormalTexture,
+      roughnessMap: barkRoughnessTexture,
+      displacementMap: barkDisplacementTexture,
+      displacementScale: 0.1,
+      color: 0x8B4513
+    });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.copy(branch.start.clone().add(dir.clone().multiplyScalar(length/2)));
     mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), dir);
@@ -109,7 +135,7 @@ export function addTreeToScene(scene, treeParams, rand) {
         foliageCount++;
         const sprite = new THREE.Sprite(leafMaterial.clone());
         sprite.position.copy(branch.end);
-        const scale = 0.5 + randFoliage() * 0.7;
+        const scale = treeParams.leafTextureSize * (0.5 + randFoliage() * 0.7);
         sprite.scale.set(scale, scale, scale);
         sprite.material.rotation = randFoliage() * Math.PI * 2;
         scene.add(sprite);

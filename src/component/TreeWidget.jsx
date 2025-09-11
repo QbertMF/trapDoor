@@ -13,6 +13,7 @@ export default function TreeWidget({
   minBranchOffset, setMinBranchOffset,
   maxBranchOffset, setMaxBranchOffset,
   trunkLength, setTrunkLength,
+  leafTextureSize, setLeafTextureSize,
   seed, setSeed,
   onRegenerate
 }) {
@@ -205,6 +206,19 @@ export default function TreeWidget({
               onChange={e => setFolIterationStart(Number(e.target.value))}
               style={{ width: '60px' }}
             />
+            <div style={{ marginTop: '1em' }}>
+              <label htmlFor="leafTextureSize">Leaf Texture Size: </label>
+              <input
+                id="leafTextureSize"
+                type="number"
+                min={1.0}
+                max={10.0}
+                step={0.01}
+                value={leafTextureSize}
+                onChange={e => setLeafTextureSize(Number(e.target.value))}
+                style={{ width: '60px' }}
+              />
+            </div>
           </div>
         )}
       </div>
