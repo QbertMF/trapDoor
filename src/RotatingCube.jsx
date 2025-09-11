@@ -211,6 +211,8 @@ function RotatingCube() {
           setMinBranchOffset={setMinBranchOffset}
           maxBranchOffset={maxBranchOffset}
           setMaxBranchOffset={setMaxBranchOffset}
+          seed={seed}
+          setSeed={setSeed}
           onRegenerate={() => setSeed(Math.floor(Math.random() * 1000000))}
         />
         <button

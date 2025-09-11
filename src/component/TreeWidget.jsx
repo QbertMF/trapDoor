@@ -13,12 +13,25 @@ export default function TreeWidget({
   minBranchOffset, setMinBranchOffset,
   maxBranchOffset, setMaxBranchOffset,
   trunkLength, setTrunkLength,
+  seed, setSeed,
   onRegenerate
 }) {
   const [foliageOpen, setFoliageOpen] = useState(false);
   const [trunkOpen, setTrunkOpen] = useState(false);
   return (
     <div style={{ margin: '1em 0' }}>
+      <div style={{ marginBottom: '1em' }}>
+        <label htmlFor="seed">Seed: </label>
+        <input
+          id="seed"
+          type="number"
+          min={0}
+          max={9999999}
+          value={seed}
+          onChange={e => setSeed(Number(e.target.value))}
+          style={{ width: '100px' }}
+        />
+      </div>
       <div style={{ marginBottom: '1em' }}>
         <label htmlFor="iterations">Tree Iterations: </label>
         <input
