@@ -89,7 +89,15 @@ export function addTreeToScene(scene, treeParams, rand) {
   const trunkDir = new THREE.Vector3(0, 1, 0);
   generateBranches(trunkStart, trunkDir, treeParams.trunkLength, treeParams.trunkThickness, treeParams.iterations, branches, treeParams, rand);
 
-  // Add branch meshes
+  // Create material once and reuse for all branches
+  const material = new THREE.MeshStandardMaterial({
+    map: barkTexture,
+    normalMap: barkNormalTexture,
+    roughnessMap: barkRoughnessTexture,
+    displacementMap: barkDisplacementTexture,
+    displacementScale: 0.1,
+    color: 0x8B4513
+  });
   branches.forEach(branch => {
     const dir = branch.end.clone().sub(branch.start);
     const length = dir.length();
@@ -101,14 +109,6 @@ export function addTreeToScene(scene, treeParams, rand) {
     barkNormalTexture.repeat.set(1, barkRepeatY);
     barkRoughnessTexture.repeat.set(1, barkRepeatY);
     barkDisplacementTexture.repeat.set(1, barkRepeatY);
-    const material = new THREE.MeshStandardMaterial({
-      map: barkTexture,
-      normalMap: barkNormalTexture,
-      roughnessMap: barkRoughnessTexture,
-      displacementMap: barkDisplacementTexture,
-      displacementScale: 0.1,
-      color: 0x8B4513
-    });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.copy(branch.start.clone().add(dir.clone().multiplyScalar(length/2)));
     mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), dir);
