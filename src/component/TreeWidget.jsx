@@ -19,6 +19,14 @@ export default function TreeWidget({
   seed, setSeed,
   onRegenerate
 }) {
+  // Handler for glTF export
+  function handleExportGLTF() {
+    if (typeof window.exportTreeGLTF === 'function') {
+      window.exportTreeGLTF();
+    } else {
+      alert('glTF export function not implemented.');
+    }
+  }
   const [foliageOpen, setFoliageOpen] = useState(false);
   const [trunkOpen, setTrunkOpen] = useState(false);
   const [branchOpen, setBranchOpen] = useState(false);
@@ -249,6 +257,12 @@ export default function TreeWidget({
       </div>
       <div style={{ marginTop: '1em' }}>
         <button onClick={onRegenerate}>Regenerate Tree</button>
+        <button
+          style={{ marginTop: '1em', width: '100%' }}
+          onClick={handleExportGLTF}
+        >
+          Export Tree as glTF
+        </button>
       </div>
     </div>
   );

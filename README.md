@@ -26,6 +26,7 @@ ToDo:
 - Add Astlöcher
 - LOD support
 - selectable textures
+- glTF export
 - make first trunk different from the following
 - vary the thickness of the branches
 - Branches to branch off not at the tip but throughout the parent branch

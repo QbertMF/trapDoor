@@ -8,6 +8,41 @@ import TreeWidget from './component/TreeWidget';
 import Statistics from './component/Statistics';
 
 function RotatingCube() {
+  // GLTF export function
+  useEffect(() => {
+    window.exportTreeGLTF = () => {
+      // Find the tree group in the scene
+      if (!mountRef.current) return;
+      const rendererDom = mountRef.current.querySelector('canvas');
+      if (!rendererDom || !rendererDom.parentNode) return;
+      // Find the tree group from the scene
+      const scene = rendererDom.parentNode.__threeObj || rendererDom.__threeObj;
+      // Instead, keep a reference to treeGroup
+      if (!window._lastTreeGroup) {
+        alert('Tree group not found. Export failed.');
+        return;
+      }
+      // Dynamically import GLTFExporter
+      import('three/examples/jsm/exporters/GLTFExporter').then(({ GLTFExporter }) => {
+        const exporter = new GLTFExporter();
+        exporter.parse(window._lastTreeGroup, function (result) {
+          const output = JSON.stringify(result, null, 2);
+          const blob = new Blob([output], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = 'tree.glb';
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          }, 100);
+        }, { binary: false });
+      });
+    };
+  }, []);
   const mountRef = useRef(null);
   const [iterations, setIterations] = useState(8);
   const [seed, setSeed] = useState(663652); //() => Math.floor(Math.random() * 1000000));
@@ -91,11 +126,12 @@ function RotatingCube() {
     // Create seeded random generator
     const rand = createSeededRandom(seed);
     // Add tree model to the scene as a group
-    const treeGroup = new THREE.Group();
-    const stats = addTreeToScene(treeGroup, treeParams, rand);
-    setBranchCount(stats.branchCount);
-    setFoliageCount(stats.foliageCount);
-    scene.add(treeGroup);
+  const treeGroup = new THREE.Group();
+  window._lastTreeGroup = treeGroup; // Save reference for export
+  const stats = addTreeToScene(treeGroup, treeParams, rand);
+  setBranchCount(stats.branchCount);
+  setFoliageCount(stats.foliageCount);
+  scene.add(treeGroup);
 
     camera.position.z = 60;
     
