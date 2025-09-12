@@ -9,6 +9,7 @@ export default function TreeWidget({
   branchLengthFactor, setBranchLengthFactor,
   trunkThickness, setTrunkThickness,
   branchThicknessFactor, setBranchThicknessFactor,
+  branchSegments, setBranchSegments,
   barkColor, setBarkColor,
   folIterationStart, setFolIterationStart,
   minBranchOffset, setMinBranchOffset,
@@ -110,6 +111,19 @@ export default function TreeWidget({
         </div>
         {branchOpen && (
           <div style={{ marginTop: '1em' }}>
+            <div style={{ marginBottom: '1em' }}>
+              <label htmlFor="branchSegments">Branch Segments: </label>
+              <input
+                id="branchSegments"
+                type="number"
+                min={4.0}
+                max={32.0}
+                step={1}
+                value={branchSegments}
+                onChange={e => setBranchSegments(Number(e.target.value))}
+                style={{ width: '60px' }}
+              />
+            </div>
             <div style={{ marginBottom: '1em' }}>
               <label htmlFor="branchThicknessFactor">Branch Thickness Factor: </label>
               <input

@@ -16,21 +16,25 @@ Prompts:
 add two parameters names minBranchOffset and MaxBranchOffset in the TreeWidget that change corresponding useStates in RotatingCube. Both parameters shall range from 0.0 to 1.0. Both shall default to 1.0. These two parameter shall also be added to the Treestructure and passed in where the TreeStructure is create
 
 - add single parameter
-add a parameter named initBranchLength in the TreeWidget that changes the corresponding useStates in RotatingCube. The parameter shall range from 1.0 to 100.0. Both shall default to 10.0. The paramete shall also be added to the Treestructure and passed in where the TreeStructure is created.
+add a parameter named branchSegments in the TreeWidget that changes the corresponding useStates in RotatingCube. The parameter shall range from 4.0 to 32.0. It shall default to 8.0. The parameter shall also be added to the Treestructure and passed in where the TreeStructure is created. The parameter shall be added to the dependency list of the useEffect.
 
 Run Project:
 npm run dev
 
 ToDo:
 + Add bark to tree
-- Add Astlöcher
-- LOD support
-- selectable textures
-- glTF export
-- make first trunk different from the following
-- vary the thickness of the branches
-- Branches to branch off not at the tip but throughout the parent branch
++ Branches to branch off not at the tip but throughout the parent branch
     - try to avoid gaps beween branches. Do not start child branches at the tip of the parent branch.
++ make first trunk different from the following
++ glTF export
+    - fix export of billboards
+- Add roots
+- Add Astlöcher
+- Add season support
+- LOD support
+    - add wrinkels to the branches
+    - vary the thickness of the branches
+- selectable textures
 - RenameRotatingCube into something with tree
 - rename project (if that is possible)
 

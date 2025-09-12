@@ -55,6 +55,7 @@ function RotatingCube() {
   const [trunkLength, setTrunkLength] = useState(10.0);
   const [trunkLengthFactor, setTrunkLengthFactor] = useState(2.25); // default value
   const [branchThicknessFactor, setBranchThicknessFactor] = useState(0.48); // default value
+  const [branchSegments, setBranchSegments] = useState(8.0); // default value
   const [leafTextureSize, setLeafTextureSize] = useState(5.0); // default value
   const [barkColor, setBarkColor] = useState(0x9c6131); // default value
   const [cameraRotationEnabled, setCameraRotationEnabled] = useState(true);
@@ -113,7 +114,8 @@ function RotatingCube() {
       trunkThickness,
       trunkLength,
         trunkLengthFactor,
-      branchThicknessFactor,
+  branchThicknessFactor,
+  branchSegments,
       foliageEnabled,
       folIterationStart,
       minBranchOffset,
@@ -126,12 +128,12 @@ function RotatingCube() {
     // Create seeded random generator
     const rand = createSeededRandom(seed);
     // Add tree model to the scene as a group
-  const treeGroup = new THREE.Group();
-  window._lastTreeGroup = treeGroup; // Save reference for export
-  const stats = addTreeToScene(treeGroup, treeParams, rand);
-  setBranchCount(stats.branchCount);
-  setFoliageCount(stats.foliageCount);
-  scene.add(treeGroup);
+    const treeGroup = new THREE.Group();
+    window._lastTreeGroup = treeGroup; // Save reference for export
+    const stats = addTreeToScene(treeGroup, treeParams, rand);
+    setBranchCount(stats.branchCount);
+    setFoliageCount(stats.foliageCount);
+    scene.add(treeGroup);
 
     camera.position.z = 60;
     
@@ -169,12 +171,12 @@ function RotatingCube() {
     window.addEventListener('keyup', handleKeyUp);
 
     // Camera orbit state
-  let orbitRadius = 30; // move camera further away
-  // Use refs for azimuth/elevation
-  // let orbitAzimuth = 0; // horizontal angle
-  // let orbitElevation = 0; // vertical angle
-  const orbitSpeed = 0.03;
-  let orbitCenter = new THREE.Vector3(0, 10, 0); // orbit around y=10
+    let orbitRadius = 30; // move camera further away
+    // Use refs for azimuth/elevation
+    // let orbitAzimuth = 0; // horizontal angle
+    // let orbitElevation = 0; // vertical angle
+    const orbitSpeed = 0.03;
+    let orbitCenter = new THREE.Vector3(0, 10, 0); // orbit around y=10
 
     // Animation loop
     let frameId;
@@ -237,7 +239,7 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset, leafTextureSize, barkColor, trunkLengthFactor]);
+  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, branchSegments, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset, leafTextureSize, barkColor, trunkLengthFactor]);
 
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
@@ -261,10 +263,12 @@ function RotatingCube() {
           setTrunkThickness={setTrunkThickness}
           trunkLength={trunkLength}
           setTrunkLength={setTrunkLength}
-            trunkLengthFactor={trunkLengthFactor}
-            setTrunkLengthFactor={setTrunkLengthFactor}
+          trunkLengthFactor={trunkLengthFactor}
+          setTrunkLengthFactor={setTrunkLengthFactor}
           branchThicknessFactor={branchThicknessFactor}
           setBranchThicknessFactor={setBranchThicknessFactor}
+          branchSegments={branchSegments} 
+          setBranchSegments={setBranchSegments} 
           folIterationStart={folIterationStart}
           setFolIterationStart={setFolIterationStart}
           minBranchOffset={minBranchOffset}

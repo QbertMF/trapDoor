@@ -110,7 +110,7 @@ export function addTreeToScene(scene, treeParams, rand) {
     const dir = branch.end.clone().sub(branch.start);
     const length = dir.length();
     dir.normalize();
-    const geometry = new THREE.CylinderGeometry(branch.endThickness, branch.startThickness, length, 8);
+  const geometry = new THREE.CylinderGeometry(branch.endThickness, branch.startThickness, length, treeParams.branchSegments);
     //console.log(`Creating branch mesh: startThickness=${branch.startThickness}, endThickness=${branch.endThickness}, length=${length.toFixed(2)}`);
     // Repeat the bark texture and all maps along the cylinder's length and circumference
     const barkRepeatY = Math.max(1, length / 2); // Adjust as needed for tiling
