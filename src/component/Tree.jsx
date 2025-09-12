@@ -31,8 +31,16 @@ barkDisplacementTexture.wrapT = THREE.RepeatWrapping;
 function generateBranches(start, direction, length, thickness, iterations, branches, treeParams, rand) {
   if (iterations === 0) return;
 
+  let myLength = length
+  // treeParams.trunkLength * treeParams.trunkLengthFactor
+  if (iterations === treeParams.iterations) {
+    // This is the trunk (first branch)
+    myLength = length * treeParams.trunkLengthFactor * (0.7 + rand() * 0.7);
+  }
+
   // Calculate end point
-  const end = start.clone().add(direction.clone().multiplyScalar(length));
+  const end = start.clone().add(direction.clone().multiplyScalar(myLength));
+
   // Calculate end thickness for this branch
   const endThickness = thickness * treeParams.branchThicknessFactor;
   const branchObj = Object.assign(
@@ -47,7 +55,7 @@ function generateBranches(start, direction, length, thickness, iterations, branc
   for (let i = 0; i < branchCount; i++) {
     // Random offset along the parent branch
     const offsetFactor = treeParams.minBranchOffset + rand() * (treeParams.maxBranchOffset - treeParams.minBranchOffset);
-    const branchStart = start.clone().add(direction.clone().multiplyScalar(length * offsetFactor));
+    const branchStart = start.clone().add(direction.clone().multiplyScalar(myLength * offsetFactor));
 
     // Random angle between minAngle and maxAngle (degrees to radians)
     const angleDeg = treeParams.minAngle + rand() * (treeParams.maxAngle - treeParams.minAngle);

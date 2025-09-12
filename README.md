@@ -22,7 +22,10 @@ Run Project:
 npm run dev
 
 ToDo:
-- Add bark to tree
++ Add bark to tree
+- Add Astlöcher
+- LOD support
+- selectable textures
 - make first trunk different from the following
 - vary the thickness of the branches
 - Branches to branch off not at the tip but throughout the parent branch

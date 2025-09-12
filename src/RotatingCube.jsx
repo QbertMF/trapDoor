@@ -10,7 +10,7 @@ import Statistics from './component/Statistics';
 function RotatingCube() {
   const mountRef = useRef(null);
   const [iterations, setIterations] = useState(8);
-  const [seed, setSeed] = useState(872761); //() => Math.floor(Math.random() * 1000000));
+  const [seed, setSeed] = useState(663652); //() => Math.floor(Math.random() * 1000000));
   const [minAngle, setMinAngle] = useState(15);
   const [maxAngle, setMaxAngle] = useState(45);
   const [minBranch, setMinBranch] = useState(1);
@@ -18,6 +18,7 @@ function RotatingCube() {
   const [branchLengthFactor, setBranchLengthFactor] = useState(0.77);
   const [trunkThickness, setTrunkThickness] = useState(3.0); // default value
   const [trunkLength, setTrunkLength] = useState(10.0);
+  const [trunkLengthFactor, setTrunkLengthFactor] = useState(2.25); // default value
   const [branchThicknessFactor, setBranchThicknessFactor] = useState(0.48); // default value
   const [leafTextureSize, setLeafTextureSize] = useState(5.0); // default value
   const [barkColor, setBarkColor] = useState(0x9c6131); // default value
@@ -76,6 +77,7 @@ function RotatingCube() {
       branchLengthFactor,
       trunkThickness,
       trunkLength,
+        trunkLengthFactor,
       branchThicknessFactor,
       foliageEnabled,
       folIterationStart,
@@ -199,7 +201,7 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset, leafTextureSize, barkColor]);
+  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset, leafTextureSize, barkColor, trunkLengthFactor]);
 
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
@@ -223,6 +225,8 @@ function RotatingCube() {
           setTrunkThickness={setTrunkThickness}
           trunkLength={trunkLength}
           setTrunkLength={setTrunkLength}
+            trunkLengthFactor={trunkLengthFactor}
+            setTrunkLengthFactor={setTrunkLengthFactor}
           branchThicknessFactor={branchThicknessFactor}
           setBranchThicknessFactor={setBranchThicknessFactor}
           folIterationStart={folIterationStart}

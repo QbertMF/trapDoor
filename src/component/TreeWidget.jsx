@@ -14,6 +14,7 @@ export default function TreeWidget({
   minBranchOffset, setMinBranchOffset,
   maxBranchOffset, setMaxBranchOffset,
   trunkLength, setTrunkLength,
+  trunkLengthFactor, setTrunkLengthFactor,
   leafTextureSize, setLeafTextureSize,
   seed, setSeed,
   onRegenerate
@@ -58,11 +59,24 @@ export default function TreeWidget({
                     <input
                       id="trunkLength"
                       type="number"
-                      min={2.0}
-                      max={30.0}
-                      step={0.01}
+                      min={1.0}
+                      max={100.0}
+                      step={0.5}
                       value={trunkLength}
                       onChange={e => setTrunkLength(Number(e.target.value))}
+                      style={{ width: '60px' }}
+                    />
+                  </div>
+                  <div style={{ marginBottom: '1em' }}>
+                    <label htmlFor="trunkLengthFactor">Trunk Length Factor: </label>
+                    <input
+                      id="trunkLengthFactor"
+                      type="number"
+                      min={1.0}
+                      max={100.0}
+                      step={0.25}
+                      value={trunkLengthFactor}
+                      onChange={e => setTrunkLengthFactor(Number(e.target.value))}
                       style={{ width: '60px' }}
                     />
                   </div>
@@ -98,6 +112,19 @@ export default function TreeWidget({
                 step={0.01}
                 value={branchThicknessFactor}
                 onChange={e => setBranchThicknessFactor(Number(e.target.value))}
+                style={{ width: '60px' }}
+              />
+            </div>
+            <div style={{ marginBottom: '1em' }}>
+              <label htmlFor="branchLengthFactor">Branch Length Factor: </label>
+              <input
+                id="branchLengthFactor"
+                type="number"
+                min={0.1}
+                max={2}
+                step={0.01}
+                value={branchLengthFactor}
+                onChange={e => setBranchLengthFactor(Number(e.target.value))}
                 style={{ width: '60px' }}
               />
             </div>
@@ -156,19 +183,6 @@ export default function TreeWidget({
                 max={10}
                 value={maxBranch}
                 onChange={e => setMaxBranch(Number(e.target.value))}
-                style={{ width: '60px' }}
-              />
-            </div>
-            <div style={{ marginBottom: '1em' }}>
-              <label htmlFor="branchLengthFactor">Branch Length Factor: </label>
-              <input
-                id="branchLengthFactor"
-                type="number"
-                min={0.1}
-                max={2}
-                step={0.01}
-                value={branchLengthFactor}
-                onChange={e => setBranchLengthFactor(Number(e.target.value))}
                 style={{ width: '60px' }}
               />
             </div>
