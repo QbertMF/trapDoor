@@ -37,4 +37,8 @@ ToDo:
 - selectable textures
 - RenameRotatingCube into something with tree
 - rename project (if that is possible)
+- Improve GUI
+    - Use sliders in addition to input fields
+    - Use a 3rd party GUI?
+    - Align GUI elements
 
