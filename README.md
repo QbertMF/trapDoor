@@ -41,4 +41,6 @@ ToDo:
     - Use sliders in addition to input fields
     - Use a 3rd party GUI?
     - Align GUI elements
+- caps are not at the end of the cylinders
+
 
