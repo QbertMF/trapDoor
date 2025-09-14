@@ -142,12 +142,33 @@ export function addTreeToScene(scene, treeParams, rand) {
       // i.e., for branches where iteration is in [1, folIterationStart]
       if (branch.iteration <= treeParams.folIterationStart && branch.iteration > 0) {
         foliageCount++;
-        const sprite = new THREE.Sprite(leafMaterial.clone());
-        sprite.position.copy(branch.end);
-        const scale = treeParams.leafTextureSize * (0.5 + randFoliage() * 0.7);
-        sprite.scale.set(scale, scale, scale);
-        sprite.material.rotation = randFoliage() * Math.PI * 2;
-        scene.add(sprite);
+        if (treeParams.useBillboards) {
+          const sprite = new THREE.Sprite(leafMaterial.clone());
+          sprite.position.copy(branch.end);
+          const scale = treeParams.leafTextureSize * (0.5 + randFoliage() * 0.7);
+          sprite.scale.set(scale, scale, scale);
+          sprite.material.rotation = randFoliage() * Math.PI * 2;
+          scene.add(sprite);
+        } else {
+          // Place a plane oriented along the branch direction
+          const scale = treeParams.leafTextureSize * (0.5 + randFoliage() * 0.7);
+          const geometry = new THREE.PlaneGeometry(scale, scale);
+          const material = new THREE.MeshBasicMaterial({
+            map: leafTexture,
+            transparent: true,
+            side: THREE.DoubleSide,
+            depthWrite: false,
+            depthTest: true,
+          });
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.position.copy(branch.end);
+          // Orient the plane so its normal matches the branch direction
+          const dir = branch.end.clone().sub(branch.start).normalize();
+          mesh.lookAt(branch.end.clone().add(dir));
+          // Optionally randomize rotation around the normal
+          mesh.rotateZ(randFoliage() * Math.PI * 2);
+          scene.add(mesh);
+        }
       }
     });
   }

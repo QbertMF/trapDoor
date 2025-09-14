@@ -8,6 +8,7 @@ import TreeWidget from './component/TreeWidget';
 import Statistics from './component/Statistics';
 
 function RotatingCube() {
+  const [useBillboards, setUseBillboards] = useState(true); // default true
   // GLTF export function
   useEffect(() => {
     window.exportTreeGLTF = () => {
@@ -122,8 +123,8 @@ function RotatingCube() {
       maxBranchOffset,
       leafTextureSize,
       barkColor,
-      position: { x: 0, y: -5, z: 0 }, // move tree down
-      // Add more parameters here as needed
+  position: { x: 0, y: -5, z: 0 }, // move tree down
+  useBillboards,
     });
     // Create seeded random generator
     const rand = createSeededRandom(seed);
@@ -239,7 +240,7 @@ function RotatingCube() {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, branchSegments, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset, leafTextureSize, barkColor, trunkLengthFactor]);
+  }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, branchSegments, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset, leafTextureSize, barkColor, trunkLengthFactor, useBillboards]);
 
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '2em', zIndex: 1 }}>
@@ -281,6 +282,8 @@ function RotatingCube() {
           setBarkColor={setBarkColor}
           seed={seed}
           setSeed={setSeed}
+          useBillboards={useBillboards}
+          setUseBillboards={setUseBillboards}
           onRegenerate={() => setSeed(Math.floor(Math.random() * 1000000))}
         />
         <button

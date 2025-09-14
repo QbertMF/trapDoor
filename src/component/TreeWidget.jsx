@@ -18,6 +18,7 @@ export default function TreeWidget({
   trunkLengthFactor, setTrunkLengthFactor,
   leafTextureSize, setLeafTextureSize,
   seed, setSeed,
+  useBillboards, setUseBillboards,
   onRegenerate
 }) {
   // Handler for glTF export
@@ -482,6 +483,20 @@ export default function TreeWidget({
         </div>
         {foliageOpen && (
           <div style={{ marginTop: '1em' }}>
+            <div style={styles.paramRow}>
+              <label htmlFor="useBillboards" style={styles.label}>Use Billboards: </label>
+              <input
+                id="useBillboards"
+                type="checkbox"
+                checked={useBillboards}
+                onChange={e => setUseBillboards(e.target.checked)}
+                style={{ width: '20px', height: '20px' }}
+              />
+              <div style={{ flex: 1 }} />
+              <span style={styles.iconWrap}>
+                <span style={styles.icon} title="Toggle foliage rendering as billboards (sprites) or mesh leaves.">?</span>
+              </span>
+            </div>
             <div style={styles.paramRow}>
               <label htmlFor="folIterationStart" style={styles.label}>Foliage Iteration Start: </label>
               <input
