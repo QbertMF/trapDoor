@@ -38,6 +38,7 @@ export default function TreeWidget({
       marginBottom: '1em',
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'flex-start', // Left align all parameter rows
     },
     label: {
       minWidth: '140px',
@@ -126,6 +127,7 @@ export default function TreeWidget({
                         onChange={e => setTrunkLength(Number(e.target.value))}
                         style={styles.input}
                       />
+                      <div style={{ flex: 1 }} />
                       <span style={styles.iconWrap}>
                         <span style={styles.icon} title="Length of the trunk in world units.">?</span>
                       </span>
@@ -154,6 +156,7 @@ export default function TreeWidget({
                         onChange={e => setTrunkLengthFactor(Number(e.target.value))}
                         style={styles.input}
                       />
+                      <div style={{ flex: 1 }} />
                       <span style={styles.iconWrap}>
                         <span style={styles.icon} title="Multiplier for trunk length, only affects the first branch (trunk).">?</span>
                       </span>
@@ -182,6 +185,7 @@ export default function TreeWidget({
                         onChange={e => setTrunkThickness(Number(e.target.value))}
                         style={styles.input}
                       />
+                      <div style={{ flex: 1 }} />
                       <span style={styles.iconWrap}>
                         <span style={styles.icon} title="Thickness of the trunk in world units.">?</span>
                       </span>
@@ -219,6 +223,7 @@ export default function TreeWidget({
                   onChange={e => setBranchSegments(Number(e.target.value))}
                   style={styles.input}
                 />
+                <div style={{ flex: 1 }} />
                 <span style={styles.iconWrap}>
                   <span style={styles.icon} title="Number of mesh segments for each branch (controls smoothness).">?</span>
                 </span>
@@ -247,6 +252,7 @@ export default function TreeWidget({
                   onChange={e => setBranchThicknessFactor(Number(e.target.value))}
                   style={styles.input}
                 />
+                <div style={{ flex: 1 }} />
                 <span style={styles.iconWrap}>
                   <span style={styles.icon} title="Factor by which branch thickness shrinks per iteration.">?</span>
                 </span>
@@ -275,20 +281,27 @@ export default function TreeWidget({
                   onChange={e => setBranchLengthFactor(Number(e.target.value))}
                   style={styles.input}
                 />
+                <div style={{ flex: 1 }} />
                 <span style={styles.iconWrap}>
                   <span style={styles.icon} title="Factor by which branch length shrinks per iteration.">?</span>
                 </span>
               </div>
             </div>
             <div style={{ marginBottom: '1em' }}>
-              <label htmlFor="barkColor">Bark Color: </label>
-              <input
-                id="barkColor"
-                type="color"
-                value={`#${barkColor.toString(16).padStart(6, '0')}`}
-                onChange={e => setBarkColor(parseInt(e.target.value.replace('#', ''), 16))}
-                style={{ width: '60px', height: '30px', verticalAlign: 'middle' }}
-              />
+              <div style={styles.paramRow}>
+                <label htmlFor="barkColor" style={styles.label}>Bark Color: </label>
+                <input
+                  id="barkColor"
+                  type="color"
+                  value={`#${barkColor.toString(16).padStart(6, '0')}`}
+                  onChange={e => setBarkColor(parseInt(e.target.value.replace('#', ''), 16))}
+                  style={{ width: '60px', height: '30px', verticalAlign: 'middle' }}
+                />
+                <div style={{ flex: 1 }} />
+                <span style={styles.iconWrap}>
+                  <span style={styles.icon} title="Color of the bark material.">?</span>
+                </span>
+              </div>
             </div>
             <div style={{ marginBottom: '1em' }}>
               <div style={styles.paramRow}>
@@ -312,6 +325,7 @@ export default function TreeWidget({
                   onChange={e => setMinAngle(Number(e.target.value))}
                   style={styles.input}
                 />
+                <div style={{ flex: 1 }} />
                 <span style={styles.iconWrap}>
                   <span style={styles.icon} title="Minimum angle between branches in degrees.">?</span>
                 </span>
@@ -339,6 +353,7 @@ export default function TreeWidget({
                   onChange={e => setMaxAngle(Number(e.target.value))}
                   style={styles.input}
                 />
+                <div style={{ flex: 1 }} />
                 <span style={styles.iconWrap}>
                   <span style={styles.icon} title="Maximum angle between branches in degrees.">?</span>
                 </span>
@@ -366,6 +381,7 @@ export default function TreeWidget({
                   onChange={e => setMinBranch(Number(e.target.value))}
                   style={styles.input}
                 />
+                <div style={{ flex: 1 }} />
                 <span style={styles.iconWrap}>
                   <span style={styles.icon} title="Minimum number of branches per node.">?</span>
                 </span>
@@ -393,6 +409,7 @@ export default function TreeWidget({
                   onChange={e => setMaxBranch(Number(e.target.value))}
                   style={styles.input}
                 />
+                <div style={{ flex: 1 }} />
                 <span style={styles.iconWrap}>
                   <span style={styles.icon} title="Maximum number of branches per node.">?</span>
                 </span>
@@ -421,6 +438,7 @@ export default function TreeWidget({
                   onChange={e => setMinBranchOffset(Number(e.target.value))}
                   style={styles.input}
                 />
+                <div style={{ flex: 1 }} />
                 <span style={styles.iconWrap}>
                   <span style={styles.icon} title="Minimum offset for branch placement along parent branch.">?</span>
                 </span>
@@ -449,6 +467,7 @@ export default function TreeWidget({
                   onChange={e => setMaxBranchOffset(Number(e.target.value))}
                   style={styles.input}
                 />
+                <div style={{ flex: 1 }} />
                 <span style={styles.iconWrap}>
                   <span style={styles.icon} title="Maximum offset for branch placement along parent branch.">?</span>
                 </span>
@@ -463,18 +482,45 @@ export default function TreeWidget({
         </div>
         {foliageOpen && (
           <div style={{ marginTop: '1em' }}>
-            <label htmlFor="folIterationStart">Foliage Iteration Start: </label>
-            <input
-              id="folIterationStart"
-              type="number"
-              min={0}
-              max={iterations}
-              value={folIterationStart}
-              onChange={e => setFolIterationStart(Number(e.target.value))}
-              style={{ width: '60px' }}
-            />
-            <div style={{ marginTop: '1em' }}>
-              <label htmlFor="leafTextureSize">Leaf Texture Size: </label>
+            <div style={styles.paramRow}>
+              <label htmlFor="folIterationStart" style={styles.label}>Foliage Iteration Start: </label>
+              <input
+                id="folIterationStart-slider"
+                type="range"
+                min={0}
+                max={iterations}
+                step={1}
+                value={folIterationStart}
+                onChange={e => setFolIterationStart(Number(e.target.value))}
+                style={styles.slider}
+              />
+              <input
+                id="folIterationStart"
+                type="number"
+                min={0}
+                max={iterations}
+                step={1}
+                value={folIterationStart}
+                onChange={e => setFolIterationStart(Number(e.target.value))}
+                style={styles.input}
+              />
+              <div style={{ flex: 1 }} />
+              <span style={styles.iconWrap}>
+                <span style={styles.icon} title="Iteration at which foliage generation starts. Lower values place leaves closer to the trunk.">?</span>
+              </span>
+            </div>
+            <div style={styles.paramRow}>
+              <label htmlFor="leafTextureSize" style={styles.label}>Leaf Texture Size: </label>
+              <input
+                id="leafTextureSize-slider"
+                type="range"
+                min={1.0}
+                max={10.0}
+                step={0.01}
+                value={leafTextureSize}
+                onChange={e => setLeafTextureSize(Number(e.target.value))}
+                style={styles.slider}
+              />
               <input
                 id="leafTextureSize"
                 type="number"
@@ -483,8 +529,12 @@ export default function TreeWidget({
                 step={0.01}
                 value={leafTextureSize}
                 onChange={e => setLeafTextureSize(Number(e.target.value))}
-                style={{ width: '60px' }}
+                style={styles.input}
               />
+              <div style={{ flex: 1 }} />
+              <span style={styles.iconWrap}>
+                <span style={styles.icon} title="Size of the leaf texture sprites in world units.">?</span>
+              </span>
             </div>
           </div>
         )}

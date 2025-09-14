@@ -27,8 +27,9 @@ ToDo:
     - try to avoid gaps beween branches. Do not start child branches at the tip of the parent branch.
 + make first trunk different from the following
 + glTF export
-    - fix export of billboards
+    + fix export of billboards
 - Add roots
+- add moos
 - Add Astlöcher
 - Add season support
 - LOD support
@@ -42,5 +43,5 @@ ToDo:
     - Use a 3rd party GUI?
     - Align GUI elements
 - caps are not at the end of the cylinders
-
+- support specific tree: pine, etc
 
