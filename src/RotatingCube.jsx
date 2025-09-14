@@ -242,9 +242,9 @@ function RotatingCube() {
   }, [iterations, trunkLength, seed, minAngle, maxAngle, minBranch, maxBranch, branchLengthFactor, trunkThickness, branchThicknessFactor, branchSegments, foliageEnabled, folIterationStart, cameraRotationEnabled, minBranchOffset, maxBranchOffset, leafTextureSize, barkColor, trunkLengthFactor]);
 
   return (
-    <div style={{ position: 'relative', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: '2em' }}>
-  <Statistics branchCount={branchCount} foliageCount={foliageCount} cameraPosition={cameraPosition} />
-      <div ref={mountRef} style={{ width: '1000px', height: '800px', margin: '0 auto' }} />
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '2em', zIndex: 1 }}>
+      <Statistics branchCount={branchCount} foliageCount={foliageCount} cameraPosition={cameraPosition} />
+      <div ref={mountRef} style={{ width: '1000px', height: '800px', margin: 0, position: 'relative', top: 0, left: 0 }} />
       <div>
         <TreeWidget
           iterations={iterations}
@@ -267,8 +267,8 @@ function RotatingCube() {
           setTrunkLengthFactor={setTrunkLengthFactor}
           branchThicknessFactor={branchThicknessFactor}
           setBranchThicknessFactor={setBranchThicknessFactor}
-          branchSegments={branchSegments} 
-          setBranchSegments={setBranchSegments} 
+          branchSegments={branchSegments}
+          setBranchSegments={setBranchSegments}
           folIterationStart={folIterationStart}
           setFolIterationStart={setFolIterationStart}
           minBranchOffset={minBranchOffset}
